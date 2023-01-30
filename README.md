@@ -1,11 +1,15 @@
 # Proyecto ODS
 ## Entrega del proyecto final del módulo 3 de HSBC TechAcademy 
 
-Video de entrega del Checkpoint:
-
+Video de entrega del Checkpoint Módulo 3:
+<https://youtu.be/ltHeORMr0Lw>
 
 Video de Módulo 2:
 <https://youtu.be/ebKH3DjXDGg>
+
+API REST  en la nube :
+http://gsilvav.servehttp.com:8084/auth/signin
+
 
 Objetivo
 - Creación de una API REST con Spring Boot
@@ -22,7 +26,7 @@ Objetivo
 - Seguridad  a los servicios de la  API usando Spring  Security
 - pruebas unitarias de componentes  específicos de la  aplicación  utilizando JUnit
 - Automatizar el   proceso de testing  utilizando el   Selenium (pendiente)
-- 
+- Configuración del POM para conectar con servidor IBM Open Liberty
 
 
 *API ODS *
