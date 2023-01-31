@@ -45,7 +45,7 @@ Objetivo
 - Automatizar el   proceso de testing  utilizando el   Selenium (pendiente)
 - Configuración del POM para conectar con servidor IBM Open Liberty
 
-![Recursos en Azure](media/azure.png)
+![Recursos en Azure](media/azure2.png)
 
 
 **API ODS**
