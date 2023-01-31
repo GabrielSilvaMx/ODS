@@ -7,10 +7,27 @@ Video de entrega del Checkpoint Módulo 3:
 Video de Módulo 2:
 <https://youtu.be/ebKH3DjXDGg>
 
-API REST  en la nube :
-http://gsilvav.servehttp.com:8084/auth/signin
+**API REST  en la nube :**
+```
+http://gsilvav.servehttp.com:8084/auth/signin	POST	
 
+Ingreso a la API con token JWT.
+```
 
+```
+/api/usuarios/registro	POST
+
+Agrega un nuevo usuario (no requiere autorización)
+{
+    "usuario": "bedu",
+    "correo": "bedu@bedu.org",
+    "password": "12345678",
+    "rePassword": "12345678",
+    "alias": "beduhsbc",
+    "rol": "USER"
+}
+
+```
 Objetivo
 - Creación de una API REST con Spring Boot
 - Uso de Spring MVC para implementar el patrón Modelo Vista Controlador
@@ -29,7 +46,7 @@ Objetivo
 - Configuración del POM para conectar con servidor IBM Open Liberty
 
 
-*API ODS *
+**API ODS**
 
 Usuarios
 
@@ -71,7 +88,7 @@ Agrega un nuevo proyecto
 Actualiza la información del proyecto.
 ```
 ```
-/api/proyectos /{id}	DELETE	
+/api/proyectos/{id}	DELETE	
 
 Elimina un usuario.
 ```
