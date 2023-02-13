@@ -32,7 +32,7 @@ public class TareasDTO extends RepresentationModel<TareasDTO> {
     private Date fechaTarea;
 
     @JsonProperty("prioridad")
-    private int prioridad;
+    private String prioridad;
 
     @JsonProperty("transicion")
     private String transicion;

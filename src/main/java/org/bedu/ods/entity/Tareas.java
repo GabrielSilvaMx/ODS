@@ -43,7 +43,7 @@ public class Tareas {
     @NonNull
     @ToString.Include
     @Column(name = "prioridad", nullable = false)
-    private int prioridad;
+    private String prioridad;
 
     @NonNull
     @ToString.Include

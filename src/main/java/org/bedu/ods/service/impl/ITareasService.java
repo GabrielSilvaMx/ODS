@@ -1,8 +1,11 @@
 package org.bedu.ods.service.impl;
 
+import org.bedu.ods.entity.dto.TableroDTO;
 import org.bedu.ods.entity.dto.TareasDTO;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public interface ITareasService {
 
@@ -22,21 +25,6 @@ public interface ITareasService {
 
     TareasDTO findLastTarea();
 
-/*
-    List<TareasDTO> findAll(String cardID);
+    Set<TableroDTO> getTableroByProyectoAndUsuario(Long idProyecto, Long idUsuario);
 
-    TareasDTO findById(long id);
-
-    TareasDTO save(TareasDTO tareasDto, long proyectoId, long usuarioId);
-
-    TareasDTO update(long id, TareasDTO tareasDto);
-
-    void delete(long id);
-
-    List<Tareas> findProyecto(long proyectoId);
-
-    List<Tareas> findByUsuario(long usuarioId);
-
-    List<Tareas> findByProyectoYUsuario(long proyectoId, long usuarioId);
-    */
 }

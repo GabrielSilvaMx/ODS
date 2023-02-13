@@ -77,7 +77,7 @@ public class SecurityConfig {
                             .permitAll()
                         .requestMatchers("/auth/signin").permitAll()
                         .requestMatchers("/api/usuarios/registro").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/**").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")

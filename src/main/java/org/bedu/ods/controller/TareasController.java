@@ -1,8 +1,10 @@
 package org.bedu.ods.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.bedu.ods.entity.dto.ProyectosDTO;
+import org.bedu.ods.entity.dto.TableroDTO;
 import org.bedu.ods.entity.dto.TareasDTO;
 import org.bedu.ods.service.impl.ITareasService;
 import org.bedu.ods.service.hateoas.TareasModelAssembler;
@@ -13,8 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -28,7 +30,7 @@ public class TareasController {
     private final TareasModelAssembler modelAssembler;
 
     @GetMapping(path="/{id}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseEntity<EntityModel<TareasDTO>> getTareasById(@PathVariable("id") Long id)
     {
         try {
@@ -43,7 +45,7 @@ public class TareasController {
     }
 
     @GetMapping(path="/proyecto/{idProyecto}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByProyecto(@PathVariable("idProyecto") Long idProyecto)
     {
         List<EntityModel<TareasDTO>> listaProyectosModel = tareasService.findTareasByProyecto(idProyecto)
@@ -58,7 +60,7 @@ public class TareasController {
     }
 
     @GetMapping(path="/usuario/{idUsuario}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByUsuario(@PathVariable("idUsuario") Long idUsuario)
     {
 
@@ -74,7 +76,7 @@ public class TareasController {
     }
 
     @GetMapping(path="/proyecto/{idProyecto}/usuario/{idUsuario}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByProyectoAndUsuario(@PathVariable("idProyecto") Long idProyecto, @PathVariable("idUsuario") Long idUsuario)
     {
         List<EntityModel<TareasDTO>> listaProyectosModel = tareasService.findTareasByProyectoAndUsuario(idProyecto, idUsuario)
@@ -89,8 +91,18 @@ public class TareasController {
 
     }
 
+    @GetMapping(path="/proyecto/{idProyecto}/usuario/{idUsuario}/tablero")
+    public ResponseEntity<Set<TableroDTO>> getTableroByProyectoAndUsuario(
+            @PathVariable("idProyecto") Long idProyecto,
+            @PathVariable("idUsuario") Long idUsuario)
+    {
+
+        return new ResponseEntity<>(tareasService.
+                getTableroByProyectoAndUsuario(idProyecto, idUsuario), HttpStatus.OK);
+    }
+
     @PostMapping("/proyecto/{idProyecto}/usuario/{idUsuario}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseEntity<EntityModel<TareasDTO>> addTareaByProyectoAndUsuario(
             @PathVariable("idProyecto") long idProyecto,
             @PathVariable("idUsuario") long idUsuario,
@@ -103,7 +115,7 @@ public class TareasController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<EntityModel<TareasDTO>> updateTarea(
             @PathVariable("id") long id,
             @RequestBody TareasDTO tareasDto)
@@ -115,56 +127,12 @@ public class TareasController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<HttpStatus> deleteTarea(
             @PathVariable("id") long id)
     {
         tareasService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-/*
 
-    @GetMapping("/tareas/proyecto/{proyectoId}/usuario/{usuarioId}")
-    public ResponseEntity<List<Tareas>> getAllTareasByProyectoYUsuario(@PathVariable("proyectoId") long proyectoId, @PathVariable("usuarioId") long usuarioId)
-    {
-        List<Tareas> _tareas = tareasService.findByProyectoYUsuario(proyectoId, usuarioId);
-        if (_tareas.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(_tareas, HttpStatus.OK);
-    }
-
-    @GetMapping("/tareas/proyecto/{proyectoId}")
-    public ResponseEntity<List<Tareas>> getAllTareasByProyecto(@PathVariable("proyectoId") long proyectoId) {
-        List<Tareas> _tareas = tareasService.findProyecto(proyectoId);
-        if (_tareas.isEmpty())
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(_tareas, HttpStatus.OK);
-    }
-
-    @GetMapping("/tareas/usuario/{usuarioId}")
-    public ResponseEntity<List<Tareas>> getAllTareasByUsuario(@PathVariable("usuarioId") long usuarioId) {
-        List<Tareas> _tareas = tareasService.findByUsuario(usuarioId);
-        if (_tareas.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(_tareas, HttpStatus.OK);
-    }
-
-    @PostMapping("/tareas/proyecto/{proyectoId}/usuario/{usuarioId}")
-    public ResponseEntity<Tareas> createTareas(@PathVariable("proyectoId") long proyectoId, @PathVariable("usuarioId") long usuarioId, @RequestBody Tareas tarea) {
-        return new ResponseEntity<>(tareasService.save(tarea,proyectoId,usuarioId), HttpStatus.CREATED);
-    }
-
-    @PutMapping("/tareas/{id}")
-    public ResponseEntity<Tareas> updateTareas(@PathVariable("id") long id, @RequestBody Tareas tarea) {
-        return new ResponseEntity<>(tareasService.update(id, tarea), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/tareas/{id}")
-    public ResponseEntity<HttpStatus> deleteTareas(@PathVariable("id") long id) {
-        tareasService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-*/
 }

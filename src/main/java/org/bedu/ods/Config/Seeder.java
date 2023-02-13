@@ -38,7 +38,7 @@ public class Seeder implements CommandLineRunner {
                 "jorge.ramon@bedu.org",
                 "jorger",
                 passwordEncoder.encode("bedu$12345"),
-                "ADMIN"
+                "MANAGER"
         );
         usuariosRepository.save(_usuario1);
         Usuarios _usuario2 = new Usuarios(
@@ -79,7 +79,7 @@ public class Seeder implements CommandLineRunner {
                         "Jorge Ramón es el responsable del equipo y le informará a cada integrante " +
                         "del equipo cómo llevar a cabo la tarea que se le asignó y se irá registrando " +
                         "en el tablero Kanban. ",
-                fechaFormat.parse("2022-12-18"),
+                fechaFormat.parse("2023-12-18"),
                 fechaFormat.parse("2023-01-15"),
                 fechaFormat.parse("2023-01-16"),
                 "normal",
@@ -104,8 +104,8 @@ public class Seeder implements CommandLineRunner {
         _tarea1.setProyecto(_proyecto);
         _tarea1.setUsuario(_usuario2);
         _tarea1.setCardID("BEDU-RECICLA-001");
-        _tarea1.setFechaTarea(fechaFormat.parse("2022-12-19"));
-        _tarea1.setPrioridad(1);
+        _tarea1.setFechaTarea(fechaFormat.parse("2023-02-19"));
+        _tarea1.setPrioridad("moderate");
         _tarea1.setTransicion("working");
         _tarea1.setEstado("progress");
         _tarea1.setDescripcion("a) Realizaré una encuesta al personal para ver si tienen algún" +
@@ -117,8 +117,8 @@ public class Seeder implements CommandLineRunner {
         _tarea2.setProyecto(_proyecto);
         _tarea2.setUsuario(_usuario2);
         _tarea2.setCardID("BEDU-RECICLA-002");
-        _tarea2.setFechaTarea(fechaFormat.parse("2023-01-10"));
-        _tarea2.setPrioridad(3);
+        _tarea2.setFechaTarea(fechaFormat.parse("2023-03-10"));
+        _tarea2.setPrioridad("low");
         _tarea2.setTransicion("waiting");
         _tarea2.setEstado("Do");
         _tarea2.setDescripcion("a) Pasaré con cada uno del personal para recoger " +

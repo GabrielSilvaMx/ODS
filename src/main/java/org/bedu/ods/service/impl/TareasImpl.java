@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.bedu.ods.entity.Proyectos;
 import org.bedu.ods.entity.Tareas;
 import org.bedu.ods.entity.Usuarios;
+import org.bedu.ods.entity.dto.TableroDTO;
 import org.bedu.ods.entity.dto.TareasDTO;
 import org.bedu.ods.entity.mapper.TareasMapper;
 import org.bedu.ods.exception.ResourceNotFoundException;
@@ -15,8 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -120,6 +120,35 @@ public class TareasImpl implements ITareasService {
         tareasRepository.findAll().forEach(listaTareas::add);
         return tareasMapper.tareasToTareasDto(
                 listaTareas.get(listaTareas.size()-1));
+    }
+
+    @Override
+    public Set<TableroDTO> getTableroByProyectoAndUsuario(Long idProyecto, Long idUsuario) {
+        Proyectos proyecto = proyectosRepository.getReferenceById(idProyecto);
+
+        Usuarios usuario = usuariosRepository.getReferenceById(idUsuario);
+        LinkedList<TareasDTO> tareas = tareasMapper.listaTareasToTareasDto(
+                tareasRepository.findTareasByProyectoAndUsuario(proyecto,usuario)
+        );
+
+        // https://www.javaguides.net/2019/07/objectmapper-java-to-json.html
+        TableroDTO tableroDto1 = new TableroDTO();
+        tableroDto1.setId(1);
+        tableroDto1.setName("Qué hacer?");
+        tableroDto1.setTasks(tareas);
+        TableroDTO tableroDto2 = new TableroDTO();
+        tableroDto2.setId(2);
+        tableroDto2.setName("¡En progreso!");
+        tableroDto2.setTasks(null);
+        TableroDTO tableroDto3 = new TableroDTO();
+        tableroDto3.setId(3);
+        tableroDto3.setTasks(null);
+        tableroDto3.setName("¡Está hecho!");
+        Set<TableroDTO> tablero = new HashSet < > ();
+        tablero.add(tableroDto1);
+        tablero.add(tableroDto2);
+        tablero.add(tableroDto3);
+        return tablero;
     }
 
     /*
