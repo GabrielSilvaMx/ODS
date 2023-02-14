@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/tareas")
@@ -45,7 +45,6 @@ public class TareasController {
     }
 
     @GetMapping(path="/proyecto/{idProyecto}")
-    @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByProyecto(@PathVariable("idProyecto") Long idProyecto)
     {
         List<EntityModel<TareasDTO>> listaProyectosModel = tareasService.findTareasByProyecto(idProyecto)
@@ -60,7 +59,6 @@ public class TareasController {
     }
 
     @GetMapping(path="/usuario/{idUsuario}")
-    @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByUsuario(@PathVariable("idUsuario") Long idUsuario)
     {
 
@@ -76,7 +74,6 @@ public class TareasController {
     }
 
     @GetMapping(path="/proyecto/{idProyecto}/usuario/{idUsuario}")
-    @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByProyectoAndUsuario(@PathVariable("idProyecto") Long idProyecto, @PathVariable("idUsuario") Long idUsuario)
     {
         List<EntityModel<TareasDTO>> listaProyectosModel = tareasService.findTareasByProyectoAndUsuario(idProyecto, idUsuario)
@@ -102,7 +99,6 @@ public class TareasController {
     }
 
     @PostMapping("/proyecto/{idProyecto}/usuario/{idUsuario}")
-    @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseEntity<EntityModel<TareasDTO>> addTareaByProyectoAndUsuario(
             @PathVariable("idProyecto") long idProyecto,
             @PathVariable("idUsuario") long idUsuario,
@@ -115,7 +111,6 @@ public class TareasController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<EntityModel<TareasDTO>> updateTarea(
             @PathVariable("id") long id,
             @RequestBody TareasDTO tareasDto)
@@ -127,7 +122,6 @@ public class TareasController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<HttpStatus> deleteTarea(
             @PathVariable("id") long id)
     {

@@ -28,10 +28,10 @@ public class TareasDTO extends RepresentationModel<TareasDTO> {
     @JsonProperty("cardID")
     private String cardID;
 
-    @JsonProperty("fechaTarea")
+    @JsonProperty("date")
     private Date fechaTarea;
 
-    @JsonProperty("prioridad")
+    @JsonProperty("priority")
     private String prioridad;
 
     @JsonProperty("transicion")
@@ -40,7 +40,7 @@ public class TareasDTO extends RepresentationModel<TareasDTO> {
     @JsonProperty("estado")
     private String estado;
 
-    @JsonProperty("descripcion")
+    @JsonProperty("description")
     private String descripcion;
 
     @JsonProperty("tiempoEstimado")
