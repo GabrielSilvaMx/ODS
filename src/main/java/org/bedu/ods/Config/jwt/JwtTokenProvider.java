@@ -1,9 +1,6 @@
 package org.bedu.ods.Config.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -82,9 +79,8 @@ public class JwtTokenProvider {
             //  parseClaimsJws will check expiration date. No need do here.
             log.info("expiration date: {}", claims.getBody().getExpiration());
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            log.error("Invalid JWT token: {}", e.getMessage());
+        } catch (ExpiredJwtException | SignatureException | MalformedJwtException e) {
+            return false;
         }
-        return false;
     }
 }
