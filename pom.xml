@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.bedu</groupId>
     <artifactId>ODS</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>ODS</name>
     <description>Proyecto de Tablero Kanban para proyectos de Desarrollo Sustentable</description>
     <properties>
@@ -177,10 +177,22 @@
     </repositories>
     <build>
         <plugins>
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin> -->
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>org.bedu.ods</mainClass>
+                            <outputDirectory>${project.basedir}/Docker</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>

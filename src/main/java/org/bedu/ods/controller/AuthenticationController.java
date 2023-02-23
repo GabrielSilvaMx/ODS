@@ -27,7 +27,7 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public ResponseEntity<Map<Object, Object>> signin(@RequestBody AuthenticationRequest data) {
         try {
-            String rol = "MANAGER";
+            String rol[] = {"MANAGER"};
             String username = data.getUsername();
             //System.out.println(data.getUsername());
             var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));

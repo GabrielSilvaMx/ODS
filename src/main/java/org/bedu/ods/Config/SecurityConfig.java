@@ -69,21 +69,19 @@ public class SecurityConfig {
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(c -> c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll()
-                        /*
                         .requestMatchers(new AntPathRequestMatcher("/token"))
                             .authenticated()
                         .requestMatchers(format("%s/**", restApiDocPath))
                             .permitAll()
                         .requestMatchers(format("%s/**", swaggerPath))
                             .permitAll()
-
+                        .requestMatchers("/api/all").permitAll()
                         .requestMatchers("/auth/signin").permitAll()
                         .requestMatchers("/api/usuarios/registro").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/**").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/**").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
+                        /*.requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/proyectos/**").hasAnyRole("ADMIN" ,"MANAGER")
                         .requestMatchers(HttpMethod.DELETE, "/tareas/**").hasAnyRole( "MANAGER", "USER")
                         .anyRequest().authenticated() */
