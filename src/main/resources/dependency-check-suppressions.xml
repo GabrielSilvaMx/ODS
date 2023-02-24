@@ -8,11 +8,36 @@
         <cpe>cpe:/a:vmware:springsource_spring_framework</cpe>
         <cpe>cpe:/a:springsource:spring_framework</cpe>
         <cpe>cpe:/a:mod_security:mod_security</cpe>
+
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on spring security.
+        ]]></notes>
+        <gav regex="true">org\.springframework\.security:spring.*</gav>
+        <vulnerabilityName regex="true"></vulnerabilityName>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+      others
+      ]]></notes>
         <cpe>cpe:2.3:a:pivotal:spring_security_oauth:5.7.3:*:*:*:*:*:*:*</cpe>
         <cpe>cpe:2.3:a:pivotal_software:spring_security:5.7.3:*:*:*:*:*:*:*</cpe>
         <cpe>cpe:2.3:a:pivotal_software:spring_security_oauth:5.7.3:*:*:*:*:*:*:*</cpe>
         <cpe>cpe:2.3:a:vmware:spring_security:5.7.3:*:*:*:*:*:*:*</cpe>
         <cpe>cpe:2.3:a:pivotal_software:spring_security:5.7.3:*:*:*:*:*:*:*</cpe>
-        <cpe>cpe:2.3:a:vmware:spring_security:5.7.3:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:apache:commons-httpclient:3.1:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:apache:httpclient:3.1:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:apache:commons_io:2.6:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:apache:jackrabbit:1.5.0:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:apache:maven:2.2.1:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:apache:commons_io:2.2:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:apache:maven_shared_utils:0.9:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:nekohtml_project:nekohtml:1.9.6.2:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:netty:netty:4.1.85:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:snakeyaml_project:snakeyaml:1.33:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:apache:commons_io:2.5:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:apache_tomcat:apache_tomcat:10.1.1:*:*:*:*:*:*:*</cpe>
+        <cpe>cpe:2.3:a:nekohtml_project:nekohtml:1.9.6.2:*:*:*:*:*:*:*</cpe>
     </suppress>
 </suppressions>
