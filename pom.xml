@@ -177,6 +177,24 @@
     </repositories>
     <build>
         <plugins>
+                <plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>8.1.0</version>
+                    <configuration>
+                        <format>ALL</format>
+                        <failBuildOnCVSS>1</failBuildOnCVSS>
+                        <cveValidForHours>1</cveValidForHours>
+                        <skipProvidedScope>true</skipProvidedScope>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -208,7 +226,6 @@
                 <version>2.8.0</version>
                 <configuration>
                     <schemaVersion>v2</schemaVersion>
-                    <subscriptionId></subscriptionId>
                     <resourceGroup>azure-spring-bedu</resourceGroup>
                     <appName>gsilvav-ods</appName>
                     <pricingTier>B1</pricingTier>
