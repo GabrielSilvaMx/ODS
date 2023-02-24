@@ -16,6 +16,24 @@
         <gav regex="true">org\.springframework\.security:spring.*</gav>
         <vulnerabilityName regex="true"></vulnerabilityName>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+      httpclient
+      ]]></notes>
+        <cpe>cpe:/:apache:httpclient:3.1</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+      commons_io
+      ]]></notes>
+        <cpe>cpe:/:apache:commons_io:2.6</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+      jackrabbit
+      ]]></notes>
+        <cpe>cpe:/:apache:jackrabbit:1.5.0</cpe>
+    </suppress>
     <suppress until="2020-01-01Z">
         <notes><![CDATA[
             This suppresses a specific cve for any dependency in any directory that has the specified sha1 checksum. If current date is not yet on or beyond 1 Jan 2020.
