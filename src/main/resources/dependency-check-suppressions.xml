@@ -44,6 +44,6 @@
         <notes><![CDATA[
         This suppresses all CVE entries that have a score below CVSS 9.
         ]]></notes>
-        <cvssBelow>9</cvssBelow>
+        <cvssBelow>9.9</cvssBelow>
     </suppress>
 </suppressions>
