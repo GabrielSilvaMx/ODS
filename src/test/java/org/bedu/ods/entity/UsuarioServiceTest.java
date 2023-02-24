@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = "spring.datasource.url=jdbc:mysql://${AZ_DATABASE_NAME}.mysql.database.azure.com:3306/ods_test?serverTimezone=UTC")
+@SpringBootTest(properties = "spring.datasource.url=jdbc:mysql://${LOCAL_DATABASE_NAME}:3306/db_ods_test?serverTimezone=UTC")
 @TestPropertySource(locations = "classpath:db-test.properties")
 @Sql("classpath:test-mysql.sql")
 public class UsuarioServiceTest {
