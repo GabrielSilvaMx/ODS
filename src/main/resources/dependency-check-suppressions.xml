@@ -1,44 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
-    <suppress>
+    <suppress until="2023-10-10Z">
         <notes><![CDATA[
-            This suppresses false positives identified on spring security.
-            ]]></notes>
-        <gav regex="true">org\.springframework\.security:spring.*</gav>
-        <cpe>cpe:/a:vmware:springsource_spring_framework</cpe>
-        <cpe>cpe:/a:springsource:spring_framework</cpe>
-        <cpe>cpe:/a:mod_security:mod_security</cpe>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-            This suppresses false positives identified on spring security.
-            ]]></notes>
-        <gav regex="true">org\.springframework\.security:spring.*</gav>
-        <vulnerabilityName regex="true"></vulnerabilityName>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-      httpclient
-      ]]></notes>
-        <cpe>cpe:/:apache:httpclient:3.1</cpe>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-      commons_io
-      ]]></notes>
-        <cpe>cpe:/:apache:commons_io:2.6</cpe>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-      jackrabbit
-      ]]></notes>
-        <cpe>cpe:/:apache:jackrabbit:1.5.0</cpe>
-    </suppress>
-    <suppress until="2020-01-01Z">
-        <notes><![CDATA[
-            This suppresses a specific cve for any dependency in any directory that has the specified sha1 checksum. If current date is not yet on or beyond 1 Jan 2020.
-            ]]></notes>
+        Suppresses a given CVE for a dependency with the given sha1 until the current date is 1 Jan 2023 or beyond.
+        ]]></notes>
         <sha1>384FAA82E193D4E4B0546059CA09572654BC3970</sha1>
-        <cve>CVE-2013-1337</cve>
+        <cve>CVE-2012-5783</cve>
+        <cve>CVE-2020-13956</cve>
+        <cve>CVE-2021-29425</cve>
+        <cve>CVE-2015-1833</cve>
+        <cve>CVE-2009-0026</cve>
+        <cve>CVE-2016-6801</cve>
+        <cve>CVE-2015-1833</cve>
+        <cve>CVE-2009-0026</cve>
+        <cve>CVE-2021-26291</cve>
+        <cve>CVE-2021-29425</cve>
+        <cve>CVE-2022-29599</cve>
+        <cve>CVE-2022-24839</cve>
+        <cve>CVE-2022-41881</cve>
+        <cve>CVE-2022-41915</cve>
+        <cve>CVE-2022-1471</cve>
+        <cve>CVE-2022-31692</cve>
+        <cve>CVE-2022-31690</cve>
     </suppress>
 </suppressions>
