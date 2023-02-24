@@ -8,11 +8,11 @@
 
     <httpEndpoint id="defaultHttpEndpoint"
                   host="*"
-                  httpPort="9080"
-                  httpsPort="9443" />
+                  httpPort="80"
+                  httpsPort="443" />
 
-    <springBootApplication id="guide-spring-boot"
-                           location="thin-guide-spring-boot-0.1.0.jar"
-                           name="guide-spring-boot" />
+    <springBootApplication id="ODS"
+                           location="ODS-0.1.0.jar"
+                           name="ODS" />
 
 </server>

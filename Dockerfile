@@ -7,7 +7,7 @@ COPY --chown=1001:0 target/ODS-0.1.0.jar \
 RUN springBootUtility thin \
  --sourceAppPath=/staging/fat-ODS-0.1.0.jar \
 =======
-COPY --chown=1001:0 /mnt/e/BEDU/ODS/target/thin-ODS-0.1.0.jar \
+COPY --chown=1001:0 target/thin-ODS-0.1.0.jar \
                     /staging/fat-ODS-0.1.0.jar
 
 RUN springBootUtility thin \
@@ -45,14 +45,14 @@ COPY --chown=1001:0 --from=staging /staging/thin-ODS-0.1.0.jar \
 =======
   name="ODS API" \
   version="$VERSION-$REVISION" \
-  summary="The hello application from the Spring Boot guide" \
-  description="This image contains the hello application running with the Open Liberty runtime."
+  summary="API REST para un tablero Kanban en proyectos ODS" \
+  description="Application running with the Open Liberty runtime."
 
 RUN cp /mnt/e/BEDU/ODS/src/main/liberty/config/server.xml /config/server.xml
 
 COPY --chown=1001:0 --from=staging /staging/lib.index.cache /lib.index.cache
-COPY --chown=1001:0 --from=staging /staging/thin-guide-spring-boot-0.1.0.jar \
-                    /config/dropins/spring/thin-guide-spring-boot-0.1.0.jar
+COPY --chown=1001:0 --from=staging /staging/thin-ODS-0.1.0.jar \
+                    /config/dropins/spring/thin-ODS-0.1.0.jar
 >>>>>>> origin/developer_house
 
 RUN configure.sh
