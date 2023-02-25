@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/tareas")
@@ -49,6 +49,7 @@ public class TareasController {
                 .stream()
                 .map(modelAssembler::toModel)
                 .collect(Collectors.toList());
+
         if (listaProyectosModel.stream().count()<=0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         CollectionModel<EntityModel<TareasDTO>> collectionModel = CollectionModel.of(listaProyectosModel);
