@@ -9,7 +9,7 @@ Video de Módulo 2:
 
 **API REST  en la nube :**
 ```
-http://gsilvav.servehttp.com:8084/auth/signin	POST	
+http://localhost:8080/auth/signin	POST	
 
 Ingreso a la API con token JWT.
 ```

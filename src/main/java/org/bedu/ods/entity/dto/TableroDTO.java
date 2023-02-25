@@ -3,7 +3,6 @@ package org.bedu.ods.entity.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.JoinColumn;
 import lombok.*;
-import org.bedu.ods.entity.Proyectos;
 
 import java.util.LinkedList;
 

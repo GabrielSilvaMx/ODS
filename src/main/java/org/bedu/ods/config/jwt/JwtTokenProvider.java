@@ -1,17 +1,15 @@
-package org.bedu.ods.Config.jwt;
+package org.bedu.ods.config.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bedu.ods.entity.Usuarios;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -78,7 +76,7 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token);
             log.info("parseClaimsJws will check expiration date: {}", claims.getBody().getExpiration());
             return true;
-        } catch (ExpiredJwtException | SignatureException | MalformedJwtException e) {
+        } catch (ExpiredJwtException | MalformedJwtException e) {
             return false;
         }
     }

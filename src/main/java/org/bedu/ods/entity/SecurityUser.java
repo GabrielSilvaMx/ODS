@@ -11,25 +11,25 @@ import java.util.Collection;
 @Slf4j
 public class SecurityUser implements UserDetails {
 
-    private final Usuarios user;
+    private final Usuarios usuarios;
 
-    public SecurityUser(Usuarios user) {
-        this.user = user;
+    public SecurityUser(Usuarios usuarios) {
+        this.usuarios = usuarios;
     }
 
     public String getUsername() {
-        return user.getCorreo();
+        return usuarios.getCorreo();
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return usuarios.getPassword();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        log.info("Security getAuthorities Roles: " + user.getRol().toUpperCase());
-        return Arrays.stream(user
+        log.info("Security getAuthorities Roles: " + usuarios.getRol().toUpperCase());
+        return Arrays.stream(usuarios
                         .getRol().toUpperCase()
                         .split(","))
                 .map(SimpleGrantedAuthority::new)

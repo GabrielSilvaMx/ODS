@@ -10,6 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = false)
 public class ProyectosDTO  extends RepresentationModel<ProyectosDTO> {
 
     @JsonProperty("id")

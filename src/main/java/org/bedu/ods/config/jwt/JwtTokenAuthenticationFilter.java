@@ -1,4 +1,4 @@
-package org.bedu.ods.Config.jwt;
+package org.bedu.ods.config.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

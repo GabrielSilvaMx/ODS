@@ -50,9 +50,9 @@ public class UsuariosController {
     public @ResponseBody ResponseEntity<EntityModel<UsuariosDTO>> getByIdUsuario(@PathVariable("id") Long id)
     {
         try {
-            UsuariosDTO _usuarios = usuariosService.findById(id);
+            UsuariosDTO usuarios = usuariosService.findById(id);
             EntityModel<UsuariosDTO> model = modelAssembler
-                    .toModel(_usuarios);
+                    .toModel(usuarios);
             return new ResponseEntity<>(model, HttpStatus.OK);
         }
         catch  (NoSuchElementException ex) {

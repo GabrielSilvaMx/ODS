@@ -1,7 +1,5 @@
 package org.bedu.ods.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.bedu.ods.entity.dto.TableroDTO;

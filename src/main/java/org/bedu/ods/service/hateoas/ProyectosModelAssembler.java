@@ -1,7 +1,6 @@
 package org.bedu.ods.service.hateoas;
 
 import org.bedu.ods.controller.ProyectosController;
-import org.bedu.ods.controller.UsuariosController;
 import org.bedu.ods.entity.dto.ProyectosDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;

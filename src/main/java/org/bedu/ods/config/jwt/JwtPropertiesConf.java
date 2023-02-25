@@ -1,4 +1,4 @@
-package org.bedu.ods.Config.jwt;
+package org.bedu.ods.config.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

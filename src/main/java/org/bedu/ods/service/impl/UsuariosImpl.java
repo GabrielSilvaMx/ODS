@@ -25,8 +25,9 @@ public class UsuariosImpl implements IUsuariosService {
 
     private final IUsuariosRepository usuariosRepository;
     private final UsuariosMapper usuariosMapper;
-
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    private static final String strNoIdFound = "No se encontró usuario con id ";
 
     @Override
     public List<UsuariosDTO> findAll(String nombre) {
@@ -47,7 +48,7 @@ public class UsuariosImpl implements IUsuariosService {
     {
         return usuariosMapper.usuariosToUsuariosDto(
                 usuariosRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("No se encontró usuario con id = " + id))
+                        .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + id))
         );
     }
 
@@ -83,24 +84,24 @@ public class UsuariosImpl implements IUsuariosService {
 
     @Override
     public UsuariosDTO update(long id, UsuariosDTO usuarioDto) {
-        Usuarios _usuario = usuariosRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró usuario con id = " + id));
-                _usuario.setNombre(usuarioDto.getNombre());
-                _usuario.setCorreo(usuarioDto.getCorreo());
-                _usuario.setRol(usuarioDto.getRol());
-                _usuario.setAlias(usuarioDto.getAlias());
-                _usuario.setPassword(usuarioDto.getPassword());
+        Usuarios usuario = usuariosRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + id));
+                usuario.setNombre(usuarioDto.getNombre());
+                usuario.setCorreo(usuarioDto.getCorreo());
+                usuario.setRol(usuarioDto.getRol());
+                usuario.setAlias(usuarioDto.getAlias());
+                usuario.setPassword(usuarioDto.getPassword());
         return usuariosMapper.
                 usuariosToUsuariosDto(usuariosRepository
-                        .save(_usuario)
+                        .save(usuario)
                 );
     }
 
     @Override
     public void delete(long id) {
-        Usuarios _usuario = usuariosRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró usuario con id = " + id));
-            usuariosRepository.delete(_usuario);
+        Usuarios usuario = usuariosRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + id));
+            usuariosRepository.delete(usuario);
     }
 
     @Override
@@ -115,7 +116,7 @@ public class UsuariosImpl implements IUsuariosService {
     public UsuariosDTO findByCorreo(String correo) {
         return usuariosMapper.usuariosToUsuariosDto(
                 usuariosRepository.findByCorreo(correo)
-                        .orElseThrow(() -> new ResourceNotFoundException("No se encontró usuario  = " + correo))
+                        .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + correo))
         );
     }
 
@@ -123,8 +124,8 @@ public class UsuariosImpl implements IUsuariosService {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         UserDetails usrDetail = (UserDetails) auth.getPrincipal();
-        log.info("USERNAME: {} ", usrDetail.getUsername());
-        usrDetail.getAuthorities().forEach( (x) -> log.info("ROLES: {}", x.getAuthority() ) );
+        log.info("User Details Context: {} ", usrDetail.getUsername());
+        usrDetail.getAuthorities().forEach( x -> log.info("ROLES: {}", x.getAuthority() ) );
         return  usrDetail;
     }
 

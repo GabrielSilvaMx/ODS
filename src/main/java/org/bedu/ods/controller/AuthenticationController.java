@@ -1,7 +1,7 @@
 package org.bedu.ods.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.bedu.ods.Config.jwt.JwtTokenProvider;
+import org.bedu.ods.config.jwt.JwtTokenProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +26,7 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public ResponseEntity<Map<Object, Object>> signin(@RequestBody AuthenticationRequest data) {
         try {
-            String rol[] = {"MANAGER"};
+            String[] rol = {"MANAGER"};
             String username = data.getUsername();
 
             var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
