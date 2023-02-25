@@ -1,5 +1,6 @@
 package org.bedu.ods.entity;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 
+@Slf4j
 public class SecurityUser implements UserDetails {
 
     private final Usuarios user;
@@ -26,7 +28,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println(user.getRol().toUpperCase());
+        log.info("Security getAuthorities Roles: " + user.getRol().toUpperCase());
         return Arrays.stream(user
                         .getRol().toUpperCase()
                         .split(","))

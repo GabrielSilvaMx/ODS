@@ -81,16 +81,14 @@ public class UsuariosController {
     public ResponseEntity<EntityModel<UsuariosDTO>> updateUsuario(@PathVariable("id") long id, @RequestBody UsuariosDTO usuarioDto) {
         UsuariosDTO updateUsuarioDto = usuariosService.update(id, usuarioDto);
         EntityModel<UsuariosDTO> model = modelAssembler.toModel(updateUsuarioDto);
-        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT
-        return new ResponseEntity<>(model, HttpStatus.CREATED);
+        return new ResponseEntity<>(model, HttpStatus.CREATED); // https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT
     }
 
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUsuario(@PathVariable("id") long id) {
         usuariosService.delete(id);
-        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT); // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204
     }
 
 }

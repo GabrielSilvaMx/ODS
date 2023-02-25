@@ -17,20 +17,4 @@ public interface ITareasRepository  extends JpaRepository<Tareas, Long> {
 
     LinkedList<Tareas> findTareasByProyectoAndUsuario(Proyectos proyectos, Usuarios usuario);
 
-/*
-    List<Tareas> findByCardIDContaining(String cardID);
-
-    List<Tareas> findByProyecto(long proyectoId);
-
-    List<Tareas> findByUsuario(long usuarioId);
-
-    List<Tareas> findByProyectoAndUsuario(long proyectoId, long usuarioId);
-
-    @Transactional
-    void deleteByUsuarioId(long usuarioId);
-
-    @Transactional
-    void deleteByProyectoId(long proyectoId);
-
- */
 }

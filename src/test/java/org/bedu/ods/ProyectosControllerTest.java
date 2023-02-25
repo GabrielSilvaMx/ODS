@@ -1,21 +1,28 @@
-package org.bedu.ods.controller;
+package org.bedu.ods;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.extern.slf4j.Slf4j;
 import org.bedu.ods.entity.dto.ProyectosDTO;
 import org.bedu.ods.service.impl.ProyectosImpl;
 import org.junit.jupiter.api.*;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,14 +30,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@SpringBootTest
+
+@Slf4j
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations = "classpath:db-test.properties")
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProyectosControllerTest {
 
     private MockMvc mockMvc;
-
-    //SimpleDateFormat fechaFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     Long pryIdCreated;
 
@@ -52,7 +61,7 @@ class ProyectosControllerTest {
     @WithMockUser(username = "javier@bedu.org", password = "$2a$10$rs.epXuYugLwqh2QfppSSummBr81nmF1tAnh2jTUI1mgCYajkzsmW", roles = "MANAGER")
     @Order(1)
     @Test
-    void getProyectosById() throws Exception  {
+    void getProyectosByIdTest() throws Exception  {
         this.mockMvc
                 .perform(
                         get("/api/proyectos/{id}", 1L)
@@ -65,7 +74,7 @@ class ProyectosControllerTest {
     @WithMockUser(username = "javier@bedu.org", password = "$2a$10$rs.epXuYugLwqh2QfppSSummBr81nmF1tAnh2jTUI1mgCYajkzsmW", roles = "MANAGER")
     @Order(2)
     @Test
-    void getAllProyectos() throws Exception  {
+    void getAllProyectosTest() throws Exception  {
         this.mockMvc
                 .perform(
                         get("/api/proyectos")
@@ -79,13 +88,11 @@ class ProyectosControllerTest {
     @WithMockUser(username = "javier@bedu.org", password = "$2a$10$rs.epXuYugLwqh2QfppSSummBr81nmF1tAnh2jTUI1mgCYajkzsmW", roles = "MANAGER")
     @Order(3)
     @Test
-    void createProyecto() throws Exception  {
-        /* ProyectosDTO proyectoToMock = new ProyectosDTO(2,"Proyecto Cultural","DIFUSIÓN de los ODS que alcance al 10% población.",fechaFormat.parse("2023-02-01"),fechaFormat.parse("2024-01-15"),fechaFormat.parse("2024-01-30"),"servicio1",10,"pendiente");
-        StringBuilder proyectoBuffer = new StringBuilder(asJsonString(proyectoToMock));
-        log.info(String.valueOf(proyectoBuffer)); */
+    void createProyectoTest() throws Exception  {
+
         MockHttpServletRequestBuilder builderController = MockMvcRequestBuilders
                 .post("/api/proyectos")
-                .content("{\"nombre\":\"Proyecto Cultural\",\"descripcion\":\"DIFUSIÓN de los ODS que alcance al 10% población.\",\"fechaProyecto\":1675231200000,\"fechaCompromiso\":1705298400000,\"fechaEntrega\":1706594400000,\"claseServicio\":\"servicio1\",\"limiteWip\":10,\"estatus\":\"pendiente\"}");
+                .content("{\"nombre\":\"Proyecto Cultural\",\"descripcion\":\"DIFUSIÓN de los ODS que alcance al 10% población.\",\"fechaProyecto\":"+getFecha(2023,Calendar.AUGUST,1).getTime()+",\"fechaCompromiso\":"+getFecha(2023,Calendar.AUGUST,15).getTime()+",\"fechaEntrega\":"+getFecha(2023,Calendar.AUGUST,30).getTime()+",\"claseServicio\":\"servicio1\",\"limiteWip\":10,\"estatus\":\"pendiente\"}");
 
         MvcResult result = this.mockMvc
                 .perform(
@@ -96,20 +103,19 @@ class ProyectosControllerTest {
                 .andExpect(content().contentType("application/hal+json"))
                 .andReturn();
 
-        //log.info("ID PRY: " +jsonObject.get("id").toString());
         result.getResponse();
     }
 
     @WithMockUser(username = "javier@bedu.org", password = "$2a$10$rs.epXuYugLwqh2QfppSSummBr81nmF1tAnh2jTUI1mgCYajkzsmW", roles = "MANAGER")
     @Order(4)
     @Test
-    void updateProyecto() throws Exception {
-        Thread.sleep(1000);
+    void updateProyectoTest() throws Exception {
+
         ProyectosDTO proyecto = proyectosService.findLastProyecto();
         this.pryIdCreated = proyecto.getId();
         MockHttpServletRequestBuilder builderController = MockMvcRequestBuilders
                 .put("/api/proyectos/"+pryIdCreated)
-                .content("{\"nombre\":\"Proyecto Cultural\",\"descripcion\":\"DIFUSIÓN de los ODS que alcance al 10% población.\",\"fechaProyecto\":1675231200000,\"fechaCompromiso\":1705298400000,\"fechaEntrega\":1706594400000,\"claseServicio\":\"servicio1\",\"limiteWip\":10,\"estatus\":\"pendiente\"}");
+                .content("{\"nombre\":\"Proyecto Cultural\",\"descripcion\":\"DIFUSIÓN de los ODS que alcance al 10% población.\",\"fechaProyecto\":"+getFecha(2023,Calendar.AUGUST,1).getTime()+",\"fechaCompromiso\":"+getFecha(2023,Calendar.AUGUST,20).getTime()+",\"fechaEntrega\":"+getFecha(2023,Calendar.SEPTEMBER,30).getTime()+",\"claseServicio\":\"servicio1\",\"limiteWip\":10,\"estatus\":\"pendiente\"}");
 
         this.mockMvc
                 .perform(
@@ -124,8 +130,8 @@ class ProyectosControllerTest {
     @WithMockUser(username = "javier@bedu.org", password = "$2a$10$rs.epXuYugLwqh2QfppSSummBr81nmF1tAnh2jTUI1mgCYajkzsmW", roles = "MANAGER")
     @Order(5)
     @Test
-    void deleteProyecto() throws Exception {
-        Thread.sleep(2000);
+    void deleteProyectoTest() throws Exception {
+
         ProyectosDTO proyecto = proyectosService.findLastProyecto();
         this.pryIdCreated = proyecto.getId();
         MockHttpServletRequestBuilder builderController = MockMvcRequestBuilders
@@ -137,6 +143,15 @@ class ProyectosControllerTest {
                 )
                 .andExpect(status().isNoContent())
                 .andReturn().getResponse();
+    }
+
+    private Date getFecha(int year, int month, int day)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+        return cal.getTime();
     }
 
 }

@@ -1,4 +1,4 @@
-package org.bedu.ods.controller;
+package org.bedu.ods;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bedu.ods.entity.Proyectos;
@@ -8,12 +8,15 @@ import org.bedu.ods.repository.IProyectosRepository;
 import org.bedu.ods.repository.IUsuariosRepository;
 import org.bedu.ods.service.impl.TareasImpl;
 import org.junit.jupiter.api.*;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -21,6 +24,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,7 +34,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations = "classpath:db-test.properties")
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TareasControllerTest {
@@ -66,7 +73,7 @@ class TareasControllerTest {
     @Test
     @WithMockUser(username = "gabriel.silva@bedu.org", password = "10$inXfzjZojaJK5rF88rkDkO04zpeWgfq/PlQIAFQrNXKIjIeRMvIba", roles = "USER")
     @Order(1)
-    void getTareasById() throws Exception {
+    void getTareasByIdTest() throws Exception {
         this.mockMvc
                 .perform(
                         get("/api/tareas/{id}", 1L)
@@ -79,19 +86,13 @@ class TareasControllerTest {
     @Test
     @Order(2)
     @WithMockUser(username = "gabriel.silva@bedu.org", password = "10$inXfzjZojaJK5rF88rkDkO04zpeWgfq/PlQIAFQrNXKIjIeRMvIba", roles = "USER")
-    void addTareaByProyectoAndUsuario() throws Exception {
+    void addTareaByProyectoAndUsuarioTest() throws Exception {
 
-        this.getUsuarioYProyecto();
-
-        /*SimpleDateFormat fechaFormat = new SimpleDateFormat("yyyy-MM-dd");
-        TareasDTO tareasToMock = new TareasDTO(1,"CARD-BEDU-010",fechaFormat.parse("2023-02-10"),2,"quiet","pendiente","Se deben de recolectar mas equipos.","10 días", proyecto, usuario);
-        StringBuilder usuarioBuffer = new StringBuilder(asJsonString(tareasToMock));
-        log.info(String.valueOf(usuarioBuffer));
-         */
+        this.getUsuarioYProyectoTest();
 
         MockHttpServletRequestBuilder builderController = MockMvcRequestBuilders
                 .post("/api/tareas/proyecto/"+proyecto.getId()+"/usuario/"+usuario.getId())
-                .content("{\"cardID\":\"BEDU-CULTURA-010\",\"fechaTarea\":1676008800000,\"prioridad\":2,\"transicion\":\"quiet\",\"estado\":\"pendiente\",\"descripcion\":\"Se deben de recolectar mas equipos.\",\"tiempoEstimado\":\"10 días\"}");
+                .content("{\"cardID\":\"BEDU-CULTURA-010\",\"date\":"+getFecha(2023,Calendar.AUGUST,10).getTime()+",\"priority\":2,\"transicion\":\"quiet\",\"estado\":\"pendiente\",\"description\":\"Se deben de recolectar mas equipos.\",\"tiempoEstimado\":\"10 días\"}");
         MvcResult result = this.mockMvc
                 .perform(
                         builderController
@@ -109,13 +110,13 @@ class TareasControllerTest {
     @Test
     @Order(3)
     @WithMockUser(username = "gabriel.silva@bedu.org", password = "10$inXfzjZojaJK5rF88rkDkO04zpeWgfq/PlQIAFQrNXKIjIeRMvIba", roles = "USER")
-    void updateTarea() throws Exception {
-        Thread.sleep(1000);
+    void updateTareaTest() throws Exception {
+
         TareasDTO tarea = tareasService.findLastTarea();
         this.tareaIdCreated = tarea.getId();
         MockHttpServletRequestBuilder builderController = MockMvcRequestBuilders
                 .put("/api/tareas/"+tareaIdCreated)
-                .content("{\"cardID\":\"CARD-CULTURA-010\",\"fechaTarea\":1676008800000,\"prioridad\":2,\"transicion\":\"ToDo\",\"estado\":\"trabajando\",\"descripcion\":\"Se deben de recolectar mas equipos.\",\"tiempoEstimado\":\"10 días\"}");
+                .content("{\"cardID\":\"CARD-CULTURA-010\",\"date\":"+getFecha(2023,Calendar.AUGUST,12).getTime()+",\"priority\":2,\"transicion\":\"ToDo\",\"estado\":\"trabajando\",\"description\":\"Se deben de recolectar mas equipos.\",\"tiempoEstimado\":\"10 días\"}");
 
         this.mockMvc
                 .perform(
@@ -130,8 +131,8 @@ class TareasControllerTest {
     @Test
     @Order(4)
     @WithMockUser(username = "gabriel.silva@bedu.org", password = "10$inXfzjZojaJK5rF88rkDkO04zpeWgfq/PlQIAFQrNXKIjIeRMvIba", roles = "USER")
-    void deleteTarea() throws Exception {
-        Thread.sleep(2000);
+    void deleteTareaTest() throws Exception {
+
         TareasDTO tarea = tareasService.findLastTarea();
         this.tareaIdCreated = tarea.getId();
         MockHttpServletRequestBuilder builderController = MockMvcRequestBuilders
@@ -145,7 +146,7 @@ class TareasControllerTest {
                 .andReturn().getResponse();
     }
 
-    private void getUsuarioYProyecto() {
+    private void getUsuarioYProyectoTest() {
         List<Proyectos> listaProyectos = new ArrayList<>();
         proyectosRepository.findAll().forEach(listaProyectos::add);
         proyecto = listaProyectos.get(listaProyectos.size()-1);
@@ -153,6 +154,15 @@ class TareasControllerTest {
         List<Usuarios> listaUsuarios = new ArrayList<>();
         usuariosRepository.findAll().forEach(listaUsuarios::add);
         usuario = listaUsuarios.get(listaUsuarios.size()-1);
+    }
+
+    private Date getFecha(int year, int month, int day)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+        return cal.getTime();
     }
 
 }

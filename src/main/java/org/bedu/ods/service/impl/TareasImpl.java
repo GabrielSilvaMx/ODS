@@ -11,9 +11,6 @@ import org.bedu.ods.exception.ResourceNotFoundException;
 import org.bedu.ods.repository.IProyectosRepository;
 import org.bedu.ods.repository.ITareasRepository;
 import org.bedu.ods.repository.IUsuariosRepository;
-import org.bedu.ods.service.JpaUserDetailsService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,8 +26,6 @@ public class TareasImpl implements ITareasService {
     private final IProyectosRepository proyectosRepository;
 
     private final TareasMapper tareasMapper;
-
-    private final JpaUserDetailsService jpaUserDetailsService;
 
     @Override
     public TareasDTO findById(long id)
@@ -59,11 +54,6 @@ public class TareasImpl implements ITareasService {
 
     @Override
     public List<TareasDTO> findTareasByProyectoAndUsuario(Long idProyecto, Long idUsuario) {
-        Authentication authentication = jpaUserDetailsService.getAuth();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        //System.out.println("User has authorities: " + userDetails.getAuthorities());
-        System.out.println(userDetails.getUsername());
-
         Proyectos proyecto = proyectosRepository.getReferenceById(idProyecto);
 
         Usuarios usuario = usuariosRepository.getReferenceById(idUsuario);
@@ -74,7 +64,7 @@ public class TareasImpl implements ITareasService {
 
     @Override
     public TareasDTO addTareaByProyectoAndUsuario(TareasDTO tareasDto, long proyectoId, long usuarioId) {
-        //Proyectos proyecto = proyectosRespository.getReferenceById(idProyecto);
+
         Proyectos proyecto = proyectosRepository.findById(proyectoId)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró el proyecto con id = " + proyectoId));
         Usuarios usuario = usuariosRepository.findById(usuarioId)
@@ -131,7 +121,6 @@ public class TareasImpl implements ITareasService {
                 tareasRepository.findTareasByProyectoAndUsuario(proyecto,usuario)
         );
 
-        // https://www.javaguides.net/2019/07/objectmapper-java-to-json.html
         TableroDTO tableroDto1 = new TableroDTO();
         tableroDto1.setId(1);
         tableroDto1.setName("Qué hacer?");
@@ -151,17 +140,4 @@ public class TareasImpl implements ITareasService {
         return tablero;
     }
 
-    /*
-    @Override
-    public List<Tareas> findAll(String cardID) {
-        List<Tareas> tareas = new ArrayList<>();
-
-        if (cardID == null)
-            tareasRepository.findAll().forEach(tareas::add);
-        else
-            tareas.addAll(tareasRepository.findByCardIDContaining(cardID));
-
-        return tareas;
-    }
-     */
 }

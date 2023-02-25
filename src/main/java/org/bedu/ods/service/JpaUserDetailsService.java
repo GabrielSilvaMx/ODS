@@ -1,6 +1,7 @@
 package org.bedu.ods.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bedu.ods.entity.SecurityUser;
 import org.bedu.ods.repository.IUsuariosRepository;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @AllArgsConstructor
 @Service
 public class JpaUserDetailsService implements UserDetailsService {
@@ -18,7 +20,7 @@ public class JpaUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("get details: "+username);
+        log.info("JPA Details username : " + username);
         return userRepository
                 .findByCorreo(username)
                 .map(SecurityUser::new)

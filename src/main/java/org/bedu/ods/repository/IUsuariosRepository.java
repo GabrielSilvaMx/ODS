@@ -9,10 +9,7 @@ import java.util.Optional;
 public interface IUsuariosRepository extends JpaRepository<Usuarios, Long> {
     LinkedList<Usuarios> findByNombreContaining(String nombre);
 
-    /*
-    Regresa todos los Usuarios que se relacionan con el id del Proyecto
-     */
-    LinkedList<Usuarios> findUsuariosByProyectosId(Long proyectoId);
+    LinkedList<Usuarios> findUsuariosByProyectosId(Long proyectoId); // Regresa todos los Usuarios que se relacionan con el id del Proyecto
 
     Usuarios findByIdAndProyectosId(Long idUsuario, Long idProyecto);
 

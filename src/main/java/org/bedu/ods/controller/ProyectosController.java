@@ -33,7 +33,7 @@ public class ProyectosController {
     private final UsuariosModelAssembler usuariosModelAssembler;
 
     @GetMapping(path="/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER')")
     public @ResponseBody ResponseEntity<EntityModel<ProyectosDTO>> getProyectosById(
             @PathVariable("id") Long id)
     {
@@ -49,7 +49,7 @@ public class ProyectosController {
     }
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER')")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<ProyectosDTO>>> getAllProyectos(
             @RequestParam(required = false) String nombre)
     {
@@ -66,7 +66,7 @@ public class ProyectosController {
     }
 
     @GetMapping("/{idProyecto}/usuarios")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER')")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<UsuariosDTO>>> getAllUsuariosByProyecto(
             @PathVariable("idProyecto") long idProyecto)
     {
@@ -82,9 +82,8 @@ public class ProyectosController {
         return new ResponseEntity<>(collectionModel, HttpStatus.OK);
     }
 
-    // aqui falta hacer un nuevo mapper con links a  la relacion Many To Many, tambien el PUT y DELETE
     @GetMapping("/{idProyecto}/usuarios/{idUsuario}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER')")
     public @ResponseBody ResponseEntity<EntityModel<UsuariosDTO>> getUsuarioByProyecto(
             @PathVariable("idProyecto") long idProyecto,
             @PathVariable("idUsuario") long idUsuario)
@@ -101,7 +100,7 @@ public class ProyectosController {
     }
 
     @PostMapping("/{idProyecto}/usuarios/{idUsuario}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER')")
     public @ResponseBody ResponseEntity<EntityModel<ProyectosDTO>> addUsuarioByProyecto(
             @PathVariable("idProyecto") long idProyecto,
             @PathVariable("idUsuario") long idUsuario)
@@ -113,7 +112,7 @@ public class ProyectosController {
     }
 
     @DeleteMapping("/{idProyecto}/usuarios/{idUsuario}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER')")
     public ResponseEntity<EntityModel<ProyectosDTO>> deleteUsuarioByProyecto(
             @PathVariable("idProyecto") long idProyecto,
             @PathVariable("idUsuario") long idUsuario)
@@ -125,7 +124,7 @@ public class ProyectosController {
     }
 
     @PostMapping
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER')")
     public ResponseEntity<EntityModel<ProyectosDTO>> createProyecto(
             @Valid @RequestBody ProyectosDTO proyectoDto)
     {
@@ -136,7 +135,7 @@ public class ProyectosController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER')")
     public ResponseEntity<EntityModel<ProyectosDTO>> updateProyecto(
             @PathVariable("id") long id,
             @RequestBody ProyectosDTO proyectoDto)

@@ -30,9 +30,9 @@ public class ControllerExceptionHandler {
                 new Date(),
                 ex,
                 request.getDescription(false));
+        log.warn( "ConstraintViolationException " + message.getMessage());
 
-        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422
-        return new ResponseEntity<>(message, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(message, HttpStatus.UNPROCESSABLE_ENTITY); // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -42,7 +42,7 @@ public class ControllerExceptionHandler {
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-
+        log.warn("ResourceNotFoundException " + message.getMessage());
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
@@ -53,15 +53,14 @@ public class ControllerExceptionHandler {
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-
+        log.warn("Exception " + message.getMessage());
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiCallError<String>> handleAccessDeniedException(
             HttpServletRequest request, AccessDeniedException ex) {
-        //logger.error("handleAccessDeniedException {}\n", request.getRequestURI(), ex);
-
+        log.warn("AccessDeniedException " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ApiCallError<>("Acceso denegado", List.of(ex.getMessage())));
     }
@@ -69,7 +68,7 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiCallError<String>> handleAuthenticationException(
             HttpServletRequest request, AuthenticationException ex) {
-        //logger.error("handleAccessDeniedException {}\n", request.getRequestURI(), ex);
+        log.warn("AuthenticationException " + ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ApiCallError<>("Acceso denegado", List.of(ex.getMessage())));
@@ -78,7 +77,7 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ApiCallError<String>> handleExpiredJwtException (
             HttpServletRequest request, ExpiredJwtException ex) {
-        //logger.error("handleAccessDeniedException {}\n", request.getRequestURI(), ex);
+        log.warn("ExpiredJwtException " + ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ApiCallError<>("JWT Token expirado", List.of(ex.getMessage())));

@@ -4,13 +4,10 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import org.bedu.ods.controller.AuthenticationRequest;
-import org.bedu.ods.controller.UsuariosController;
-import org.bedu.ods.repository.IUsuariosRepository;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,7 +18,6 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.test.context.TestPropertySource;
@@ -43,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:db-test.properties")
 @Sql("classpath:test-mysql.sql")
 @AutoConfigureMockMvc //need this in Spring Boot test
-public class AuthenticationTests {
+public class AuthenticationTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -56,16 +52,11 @@ public class AuthenticationTests {
     String token;
 
     @Mock
-    IUsuariosRepository userRepository;
-
-    @Mock
     UsernamePasswordAuthenticationToken authentication;
 
     @Mock
     UsernamePasswordAuthenticationToken  principal;
 
-    @InjectMocks
-    public UsuariosController usrController;
 
     public static class MockSecurityContext implements SecurityContext {
 
@@ -89,22 +80,6 @@ public class AuthenticationTests {
         }
     }
 
-    protected UsernamePasswordAuthenticationToken getPrincipal(String username) {
-/*
-        JpaUserDetailsService jpaUserDetails = new JpaUserDetailsService(userRepository);// jpaService.loadUserByUsername(username);
-        UserDetails userDetails = jpaUserDetails.loadUserByUsername(username);
-        System.out.println("userdetail.-" + userDetails.getUsername());
-        UsernamePasswordAuthenticationToken auth =
-                new UsernamePasswordAuthenticationToken(userDetails,this.token,userDetails.getAuthorities());
-*/
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-/*        UsernamePasswordAuthenticationToken auth =
-                new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        userDetails.getPassword(),
-                        userDetails.getAuthorities()); */
-        return authentication;
-    }
 
     @Before
     public void setup() {
@@ -115,7 +90,7 @@ public class AuthenticationTests {
 
         RestAssured.port = this.port;
         var usuario="gabriel.silva@bedu.org";
-        var password="12345Abc";
+
         this.token = given()
                 .contentType(ContentType.JSON)
                 .body(AuthenticationRequest

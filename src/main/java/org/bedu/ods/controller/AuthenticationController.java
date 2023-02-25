@@ -23,13 +23,12 @@ public class AuthenticationController {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    // ResponseEntity<Map<Object, Object>>
     @PostMapping("/signin")
     public ResponseEntity<Map<Object, Object>> signin(@RequestBody AuthenticationRequest data) {
         try {
             String rol[] = {"MANAGER"};
             String username = data.getUsername();
-            //System.out.println(data.getUsername());
+
             var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
             String token = jwtTokenProvider.createToken(authentication);
             Map<Object, Object> model = new HashMap<>();
@@ -37,7 +36,6 @@ public class AuthenticationController {
             model.put("token", token);
             model.put("roles", rol);
             return new ResponseEntity<>(model,HttpStatus.OK);
-            //return ok(model);
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username/password supplied");
         }

@@ -23,14 +23,6 @@ public class UsuariosModelAssembler
         usuariosModel.add(linkTo(methodOn(UsuariosController.class)
                 .getByIdUsuario(entity.getId()))
                 .withSelfRel());
-        // falta un link que me lleve a un id proyecto del usuario en particular
-        // http://localhost:8084/api/proyectos/1/usuarios/1
-        // hay que hacer una validacion que si entity.getId() (ese usuario) está en ese proyecto, realice el linkTo
-
-        //Link link = linkTo(methodOn(ProyectosController.class).getAllUsuariosByProyecto(entity.getProyecto.getId())).withRel("proyectos");
-
-        //boolean isId = entity.getId()>0 ? true : false;
-
         usuariosModel.add(linkTo(methodOn(UsuariosController.class)
                 .getAllUsuarios(null))
                 .withRel(IanaLinkRelations.COLLECTION));

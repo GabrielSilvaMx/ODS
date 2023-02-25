@@ -1,9 +1,10 @@
-package org.bedu.ods.controller;
+package org.bedu.ods;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bedu.ods.entity.dto.UsuariosDTO;
 import org.bedu.ods.service.impl.UsuariosImpl;
 import org.junit.jupiter.api.*;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -25,7 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@SpringBootTest
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations = "classpath:db-test.properties")
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UsuariosControllerTest {
@@ -54,15 +60,8 @@ class UsuariosControllerTest {
     @Order(1)
     @DisplayName("Se registra un nuevo usuario, la autorización es anonima.")
     @WithAnonymousUser()
-    void createUsuario() throws Exception  {
-        /*Set<String> roles = new HashSet<>();
+    void createUsuarioTest() throws Exception  {
 
-        roles.add("MANAGER");
-        UsuariosDTO usuarioToMock = new UsuariosDTO(3,"Javier X.","javier@bedu.org","javi","123456$890.","MANAGER","123456$890.", roles);
-        StringBuilder usuarioBuffer = new StringBuilder(asJsonString(usuarioToMock));
-
-        usuarioBuffer.insert(Math.max(usuarioBuffer.length() - 1, 0), ",\"password\":\"123456$890.\",\"rePassword\":\"123456$890.\"");
-        log.info(String.valueOf(usuarioBuffer));*/
         SecureRandom rand = new SecureRandom();
         String email = "javier" + rand.nextInt(1000) + "@bedu.org";
 
@@ -78,16 +77,13 @@ class UsuariosControllerTest {
                 .andExpect(status().isCreated()).andDo(print())
                 .andExpect(content().contentType("application/hal+json"))
                 .andReturn();
-        /* this.usrIdCreated = result.getResponse().getContentAsString();
-        JSONObject jsonObject= new JSONObject(this.usrIdCreated);
-        log.info("ID USR: " +jsonObject.get("id").toString()); */
         result.getResponse();
     }
 
     @Test
     @Order(3)
     @WithMockUser(username = "jorge.ramon@bedu.org", password = "$10$WCCrN6o/ZvjmNG6d3smVUO6701WAcpTTWcFCj9Cg5yGPgRV7Mp9Mq", roles = "ADMIN")
-    void getByIdUsuario() throws Exception {
+    void getByIdUsuarioTest() throws Exception {
         UsuariosDTO user = usuariosService.findLastUser();
         this.usrIdCreated = user.getId();
         this.mockMvc
@@ -102,7 +98,7 @@ class UsuariosControllerTest {
     @Test
     @Order(2)
     @WithMockUser(username = "jorge.ramon@bedu.org", password = "$10$WCCrN6o/ZvjmNG6d3smVUO6701WAcpTTWcFCj9Cg5yGPgRV7Mp9Mq", roles = "ADMIN")
-    void getAllUsuarios() throws Exception {
+    void getAllUsuariosTest() throws Exception {
         this.mockMvc
                 .perform(
                         get("/api/usuarios")
@@ -116,8 +112,8 @@ class UsuariosControllerTest {
     @Test
     @Order(4)
     @WithMockUser(username = "gabriel.silva@bedu.org", password = "10$inXfzjZojaJK5rF88rkDkO04zpeWgfq/PlQIAFQrNXKIjIeRMvIba", roles = "USER")
-    void updateUsuario() throws  Exception {
-        Thread.sleep(1000);
+    void updateUsuarioTest() throws  Exception {
+
         UsuariosDTO user = usuariosService.findLastUser();
         this.usrIdCreated = user.getId();
         MockHttpServletRequestBuilder builderController = MockMvcRequestBuilders
@@ -137,8 +133,8 @@ class UsuariosControllerTest {
     @Test()
     @Order(5)
     @WithMockUser(username = "jorge.ramon@bedu.org", password = "$10$WCCrN6o/ZvjmNG6d3smVUO6701WAcpTTWcFCj9Cg5yGPgRV7Mp9Mq", roles = "ADMIN")
-    void deleteUsuario() throws Exception{
-        Thread.sleep(2000);
+    void deleteUsuarioTest() throws Exception{
+
         UsuariosDTO user = usuariosService.findLastUser();
         this.usrIdCreated = user.getId();
         MockHttpServletRequestBuilder builderController = MockMvcRequestBuilders
