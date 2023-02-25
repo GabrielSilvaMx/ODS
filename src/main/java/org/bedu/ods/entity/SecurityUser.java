@@ -11,7 +11,7 @@ import java.util.Collection;
 @Slf4j
 public class SecurityUser implements UserDetails {
 
-    private final Usuarios usuarios;
+    private transient final Usuarios usuarios;
 
     public SecurityUser(Usuarios usuarios) {
         this.usuarios = usuarios;

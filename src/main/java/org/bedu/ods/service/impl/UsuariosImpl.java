@@ -27,7 +27,7 @@ public class UsuariosImpl implements IUsuariosService {
     private final UsuariosMapper usuariosMapper;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    private static final String strNoIdFound = "No se encontró usuario con id ";
+    private static final String TXTNOTFOUND = "No se encontró usuario con id ";
 
     @Override
     public List<UsuariosDTO> findAll(String nombre) {
@@ -48,7 +48,7 @@ public class UsuariosImpl implements IUsuariosService {
     {
         return usuariosMapper.usuariosToUsuariosDto(
                 usuariosRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + id))
+                        .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + id))
         );
     }
 
@@ -85,7 +85,7 @@ public class UsuariosImpl implements IUsuariosService {
     @Override
     public UsuariosDTO update(long id, UsuariosDTO usuarioDto) {
         Usuarios usuario = usuariosRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + id));
+                .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + id));
                 usuario.setNombre(usuarioDto.getNombre());
                 usuario.setCorreo(usuarioDto.getCorreo());
                 usuario.setRol(usuarioDto.getRol());
@@ -100,7 +100,7 @@ public class UsuariosImpl implements IUsuariosService {
     @Override
     public void delete(long id) {
         Usuarios usuario = usuariosRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + id));
+                .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + id));
             usuariosRepository.delete(usuario);
     }
 
@@ -116,7 +116,7 @@ public class UsuariosImpl implements IUsuariosService {
     public UsuariosDTO findByCorreo(String correo) {
         return usuariosMapper.usuariosToUsuariosDto(
                 usuariosRepository.findByCorreo(correo)
-                        .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + correo))
+                        .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + correo))
         );
     }
 
@@ -124,8 +124,10 @@ public class UsuariosImpl implements IUsuariosService {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         UserDetails usrDetail = (UserDetails) auth.getPrincipal();
-        log.info("User Details Context: {} ", usrDetail.getUsername());
-        usrDetail.getAuthorities().forEach( x -> log.info("ROLES: {}", x.getAuthority() ) );
+        usrDetail.getAuthorities().forEach( x ->
+                log.info("User Details Context: {} ",
+                        usrDetail.getUsername() +
+                                " - ROLES: {}", x.getAuthority() ) );
         return  usrDetail;
     }
 

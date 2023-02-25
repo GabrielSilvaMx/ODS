@@ -20,7 +20,7 @@ public class ProyectosImpl implements IProyectosService {
 
     private final ProyectosMapper proyectosMapper;
 
-    private static final String strNoIdFound = "No se encontró proyecto con id ";
+    private static final String TXTNOTFOUND = "No se encontró proyecto con id ";
 
 
     @Override
@@ -43,7 +43,7 @@ public class ProyectosImpl implements IProyectosService {
     {
         return proyectosMapper.proyectosToProyectosDto(
                 proyectosRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + id))
+                        .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + id))
         );
     }
 
@@ -59,7 +59,7 @@ public class ProyectosImpl implements IProyectosService {
     @Override
     public ProyectosDTO update(long id, ProyectosDTO proyectosDto) {
         Proyectos updateProyecto = proyectosRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + id));
+                .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + id));
         updateProyecto.setNombre(proyectosDto.getNombre());
         updateProyecto.setDescripcion(proyectosDto.getDescripcion());
         updateProyecto.setFechaProyecto(proyectosDto.getFechaProyecto());
@@ -79,7 +79,7 @@ public class ProyectosImpl implements IProyectosService {
     @Override
     public void delete(long id) {
         Proyectos proyecto = proyectosRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + id));
+                .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + id));
         proyectosRepository.delete(proyecto);
     }
 
@@ -94,7 +94,7 @@ public class ProyectosImpl implements IProyectosService {
     public ProyectosDTO addUsuarioToProyecto(Long idProyecto, Long idUsuario)
     {
         Proyectos proyecto = proyectosRepository.findById(idProyecto)
-                .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + idProyecto)
+                .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + idProyecto)
                 );
         proyecto.getUsuarios().add(usuariosRepository.getReferenceById(idUsuario));
 
@@ -107,7 +107,7 @@ public class ProyectosImpl implements IProyectosService {
     public ProyectosDTO deleteUsuarioByProyecto(Long idProyecto, Long idUsuario)
     {
         Proyectos proyecto = proyectosRepository.findById(idProyecto)
-                .orElseThrow(() -> new ResourceNotFoundException(strNoIdFound + idProyecto)
+                .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + idProyecto)
                 );
         proyecto.getUsuarios().remove(usuariosRepository.getReferenceById(idUsuario));
         return proyectosMapper.

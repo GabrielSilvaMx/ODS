@@ -4,7 +4,6 @@ import org.bedu.ods.entity.Proyectos;
 import org.bedu.ods.entity.Tareas;
 import org.bedu.ods.entity.Usuarios;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 
