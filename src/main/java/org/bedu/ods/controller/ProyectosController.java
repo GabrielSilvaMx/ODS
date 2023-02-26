@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -72,7 +71,7 @@ public class ProyectosController {
         List<EntityModel<UsuariosDTO>> listaUsuariosModel = usuariosService.findUsuariosByProyectosId(idProyecto)
                 .stream()
                 .map(usuariosModelAssembler::toModel)
-                .collect(Collectors.toList());
+                .toList();
         if ((long) listaUsuariosModel.size() <=0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
