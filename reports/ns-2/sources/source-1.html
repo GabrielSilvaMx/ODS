@@ -1,0 +1,206 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SecurityConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.bedu.ods.config</a>
+</div>
+
+<h1>Coverage Summary for Class: SecurityConfig (org.bedu.ods.config)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SecurityConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SecurityConfig$$SpringCGLIB$$0</td>
+  </tr>
+  <tr>
+    <td class="name">SecurityConfig$$SpringCGLIB$$1</td>
+  </tr>
+  <tr>
+    <td class="name">SecurityConfig$$SpringCGLIB$$2</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package org.bedu.ods.config;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import lombok.RequiredArgsConstructor;
+<i class="no-highlight">4</i>&nbsp;import org.bedu.ods.config.jwt.JwtTokenAuthenticationFilter;
+<i class="no-highlight">5</i>&nbsp;import org.bedu.ods.config.jwt.JwtTokenProvider;
+<i class="no-highlight">6</i>&nbsp;import org.bedu.ods.service.JpaUserDetailsService;
+<i class="no-highlight">7</i>&nbsp;import org.springframework.beans.factory.annotation.Value;
+<i class="no-highlight">8</i>&nbsp;import org.springframework.context.annotation.Bean;
+<i class="no-highlight">9</i>&nbsp;import org.springframework.context.annotation.Configuration;
+<i class="no-highlight">10</i>&nbsp;import org.springframework.http.HttpStatus;
+<i class="no-highlight">11</i>&nbsp;import org.springframework.security.authentication.AuthenticationManager;
+<i class="no-highlight">12</i>&nbsp;import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+<i class="no-highlight">13</i>&nbsp;import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+<i class="no-highlight">14</i>&nbsp;import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+<i class="no-highlight">15</i>&nbsp;import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+<i class="no-highlight">16</i>&nbsp;import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+<i class="no-highlight">17</i>&nbsp;import org.springframework.security.config.http.SessionCreationPolicy;
+<i class="no-highlight">18</i>&nbsp;import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+<i class="no-highlight">19</i>&nbsp;import org.springframework.security.web.SecurityFilterChain;
+<i class="no-highlight">20</i>&nbsp;import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+<i class="no-highlight">21</i>&nbsp;import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+<i class="no-highlight">22</i>&nbsp;import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;import static java.lang.String.format;
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;/**
+<i class="no-highlight">27</i>&nbsp; * Security configuration for the main application.
+<i class="no-highlight">28</i>&nbsp; *
+<i class="no-highlight">29</i>&nbsp; * @author Josh Cummings
+<i class="no-highlight">30</i>&nbsp; */
+<i class="no-highlight">31</i>&nbsp;@Configuration
+<b class="fc"><i class="no-highlight">32</i>&nbsp;@RequiredArgsConstructor</b>
+<i class="no-highlight">33</i>&nbsp;@EnableWebSecurity
+<i class="no-highlight">34</i>&nbsp;@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
+<i class="no-highlight">35</i>&nbsp;public class SecurityConfig {
+<i class="no-highlight">36</i>&nbsp;
+<i class="no-highlight">37</i>&nbsp;    @Value(&quot;${springdoc.api-docs.path}&quot;)
+<i class="no-highlight">38</i>&nbsp;    private String restApiDocPath;
+<i class="no-highlight">39</i>&nbsp;
+<i class="no-highlight">40</i>&nbsp;    @Value(&quot;${springdoc.swagger-ui.path}&quot;)
+<i class="no-highlight">41</i>&nbsp;    private String swaggerPath;
+<i class="no-highlight">42</i>&nbsp;
+<i class="no-highlight">43</i>&nbsp;    private final JpaUserDetailsService jpaUserService;
+<i class="no-highlight">44</i>&nbsp;
+<i class="no-highlight">45</i>&nbsp;    @Bean
+<i class="no-highlight">46</i>&nbsp;    SecurityFilterChain springWebFilterChain(HttpSecurity http,
+<i class="no-highlight">47</i>&nbsp;                                             JwtTokenProvider tokenProvider) throws Exception {
+<b class="fc"><i class="no-highlight">48</i>&nbsp;        return http</b>
+<b class="fc"><i class="no-highlight">49</i>&nbsp;                .httpBasic(AbstractHttpConfigurer::disable)</b>
+<b class="fc"><i class="no-highlight">50</i>&nbsp;                .csrf(AbstractHttpConfigurer::disable)</b>
+<b class="fc"><i class="no-highlight">51</i>&nbsp;                .sessionManagement(c -&gt; c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))</b>
+<b class="fc"><i class="no-highlight">52</i>&nbsp;                .exceptionHandling(c -&gt; c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;                .authorizeHttpRequests(authorize -&gt; authorize</b>
+<b class="fc"><i class="no-highlight">54</i>&nbsp;                        .requestMatchers(new AntPathRequestMatcher(&quot;/token&quot;))</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;                            .authenticated()</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;                        .requestMatchers(format(&quot;%s/**&quot;, restApiDocPath))</b>
+<b class="fc"><i class="no-highlight">57</i>&nbsp;                            .permitAll()</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;                        .requestMatchers(format(&quot;%s/**&quot;, swaggerPath))</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;                            .permitAll()</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;                        .requestMatchers(&quot;/api/all&quot;).permitAll()</b>
+<b class="fc"><i class="no-highlight">61</i>&nbsp;                        .requestMatchers(&quot;/auth/signin&quot;).permitAll()</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;                        .requestMatchers(&quot;/api/usuarios/registro&quot;).permitAll()</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;                        .requestMatchers(&quot;/api/**&quot;).authenticated()</b>
+<i class="no-highlight">64</i>&nbsp;                        /*.requestMatchers(HttpMethod.DELETE, &quot;/usuarios/**&quot;).hasRole(&quot;ADMIN&quot;)
+<i class="no-highlight">65</i>&nbsp;                        .requestMatchers(HttpMethod.DELETE, &quot;/proyectos/**&quot;).hasAnyRole(&quot;ADMIN&quot; ,&quot;MANAGER&quot;)
+<i class="no-highlight">66</i>&nbsp;                        .requestMatchers(HttpMethod.DELETE, &quot;/tareas/**&quot;).hasAnyRole( &quot;MANAGER&quot;, &quot;USER&quot;)
+<i class="no-highlight">67</i>&nbsp;                        .anyRequest().authenticated() */
+<i class="no-highlight">68</i>&nbsp;                )
+<b class="fc"><i class="no-highlight">69</i>&nbsp;                .addFilterBefore(new JwtTokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)</b>
+<b class="fc"><i class="no-highlight">70</i>&nbsp;                .userDetailsService(jpaUserService)</b>
+<b class="fc"><i class="no-highlight">71</i>&nbsp;                .build();</b>
+<i class="no-highlight">72</i>&nbsp;    }
+<i class="no-highlight">73</i>&nbsp;
+<i class="no-highlight">74</i>&nbsp;    @Bean
+<i class="no-highlight">75</i>&nbsp;    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+<b class="fc"><i class="no-highlight">76</i>&nbsp;        return http.getSharedObject(AuthenticationManagerBuilder.class)</b>
+<b class="fc"><i class="no-highlight">77</i>&nbsp;                .build();</b>
+<i class="no-highlight">78</i>&nbsp;    }
+<i class="no-highlight">79</i>&nbsp;
+<i class="no-highlight">80</i>&nbsp;    // Set password encoding schema
+<i class="no-highlight">81</i>&nbsp;    @Bean
+<i class="no-highlight">82</i>&nbsp;    public BCryptPasswordEncoder passwordEncoder() {
+<b class="fc"><i class="no-highlight">83</i>&nbsp;        return new BCryptPasswordEncoder();</b>
+<i class="no-highlight">84</i>&nbsp;    }
+<i class="no-highlight">85</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-02-26 02:20</div>
+</div>
+</body>
+</html>

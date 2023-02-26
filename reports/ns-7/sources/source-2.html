@@ -1,0 +1,179 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TareasMapperImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.bedu.ods.entity.mapper</a>
+</div>
+
+<h1>Coverage Summary for Class: TareasMapperImpl (org.bedu.ods.entity.mapper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TareasMapperImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (27/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package org.bedu.ods.entity.mapper;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import java.util.LinkedList;
+<i class="no-highlight">4</i>&nbsp;import javax.annotation.processing.Generated;
+<i class="no-highlight">5</i>&nbsp;import org.bedu.ods.entity.Tareas;
+<i class="no-highlight">6</i>&nbsp;import org.bedu.ods.entity.dto.TareasDTO;
+<i class="no-highlight">7</i>&nbsp;import org.springframework.stereotype.Component;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;@Generated(
+<i class="no-highlight">10</i>&nbsp;    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+<i class="no-highlight">11</i>&nbsp;    date = &quot;2023-02-26T01:35:19-0600&quot;,
+<i class="no-highlight">12</i>&nbsp;    comments = &quot;version: 1.5.3.Final, compiler: javac, environment: Java 18 (Oracle Corporation)&quot;
+<i class="no-highlight">13</i>&nbsp;)
+<i class="no-highlight">14</i>&nbsp;@Component
+<b class="fc"><i class="no-highlight">15</i>&nbsp;public class TareasMapperImpl implements TareasMapper {</b>
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;    @Override
+<i class="no-highlight">18</i>&nbsp;    public Tareas tareasDtoToTareas(TareasDTO tareasDto) {
+<b class="fc"><i class="no-highlight">19</i>&nbsp;        if ( tareasDto == null ) {</b>
+<b class="nc"><i class="no-highlight">20</i>&nbsp;            return null;</b>
+<i class="no-highlight">21</i>&nbsp;        }
+<i class="no-highlight">22</i>&nbsp;
+<b class="fc"><i class="no-highlight">23</i>&nbsp;        Tareas tareas = new Tareas();</b>
+<i class="no-highlight">24</i>&nbsp;
+<b class="fc"><i class="no-highlight">25</i>&nbsp;        tareas.setId( tareasDto.getId() );</b>
+<b class="fc"><i class="no-highlight">26</i>&nbsp;        tareas.setCardID( tareasDto.getCardID() );</b>
+<b class="fc"><i class="no-highlight">27</i>&nbsp;        tareas.setFechaTarea( tareasDto.getFechaTarea() );</b>
+<b class="fc"><i class="no-highlight">28</i>&nbsp;        tareas.setPrioridad( tareasDto.getPrioridad() );</b>
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        tareas.setTransicion( tareasDto.getTransicion() );</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        tareas.setEstado( tareasDto.getEstado() );</b>
+<b class="fc"><i class="no-highlight">31</i>&nbsp;        tareas.setDescripcion( tareasDto.getDescripcion() );</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;        tareas.setTiempoEstimado( tareasDto.getTiempoEstimado() );</b>
+<b class="fc"><i class="no-highlight">33</i>&nbsp;        tareas.setProyecto( tareasDto.getProyecto() );</b>
+<b class="fc"><i class="no-highlight">34</i>&nbsp;        tareas.setUsuario( tareasDto.getUsuario() );</b>
+<i class="no-highlight">35</i>&nbsp;
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        return tareas;</b>
+<i class="no-highlight">37</i>&nbsp;    }
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;    @Override
+<i class="no-highlight">40</i>&nbsp;    public LinkedList&lt;TareasDTO&gt; listaTareasToTareasDto(LinkedList&lt;Tareas&gt; tareas) {
+<b class="nc"><i class="no-highlight">41</i>&nbsp;        if ( tareas == null ) {</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;            return null;</b>
+<i class="no-highlight">43</i>&nbsp;        }
+<i class="no-highlight">44</i>&nbsp;
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        LinkedList&lt;TareasDTO&gt; linkedList = new LinkedList&lt;TareasDTO&gt;();</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;        for ( Tareas tareas1 : tareas ) {</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;            linkedList.add( tareasToTareasDto( tareas1 ) );</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;        }</b>
+<i class="no-highlight">49</i>&nbsp;
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        return linkedList;</b>
+<i class="no-highlight">51</i>&nbsp;    }
+<i class="no-highlight">52</i>&nbsp;
+<i class="no-highlight">53</i>&nbsp;    @Override
+<i class="no-highlight">54</i>&nbsp;    public TareasDTO tareasToTareasDto(Tareas tareas) {
+<b class="fc"><i class="no-highlight">55</i>&nbsp;        if ( tareas == null ) {</b>
+<b class="nc"><i class="no-highlight">56</i>&nbsp;            return null;</b>
+<i class="no-highlight">57</i>&nbsp;        }
+<i class="no-highlight">58</i>&nbsp;
+<b class="fc"><i class="no-highlight">59</i>&nbsp;        TareasDTO tareasDTO = new TareasDTO();</b>
+<i class="no-highlight">60</i>&nbsp;
+<b class="fc"><i class="no-highlight">61</i>&nbsp;        tareasDTO.setId( tareas.getId() );</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;        tareasDTO.setCardID( tareas.getCardID() );</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;        tareasDTO.setFechaTarea( tareas.getFechaTarea() );</b>
+<b class="fc"><i class="no-highlight">64</i>&nbsp;        tareasDTO.setPrioridad( tareas.getPrioridad() );</b>
+<b class="fc"><i class="no-highlight">65</i>&nbsp;        tareasDTO.setTransicion( tareas.getTransicion() );</b>
+<b class="fc"><i class="no-highlight">66</i>&nbsp;        tareasDTO.setEstado( tareas.getEstado() );</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;        tareasDTO.setDescripcion( tareas.getDescripcion() );</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;        tareasDTO.setTiempoEstimado( tareas.getTiempoEstimado() );</b>
+<b class="fc"><i class="no-highlight">69</i>&nbsp;        tareasDTO.setProyecto( tareas.getProyecto() );</b>
+<b class="fc"><i class="no-highlight">70</i>&nbsp;        tareasDTO.setUsuario( tareas.getUsuario() );</b>
+<i class="no-highlight">71</i>&nbsp;
+<b class="fc"><i class="no-highlight">72</i>&nbsp;        return tareasDTO;</b>
+<i class="no-highlight">73</i>&nbsp;    }
+<i class="no-highlight">74</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-02-26 02:20</div>
+</div>
+</body>
+</html>

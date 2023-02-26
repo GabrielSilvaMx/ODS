@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Usuarios</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.bedu.ods.entity</a>
+</div>
+
+<h1>Coverage Summary for Class: Usuarios (org.bedu.ods.entity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Usuarios</td>
+<td class="coverageStat">
+  <span class="percent">
+    69.2%
+  </span>
+  <span class="absValue">
+    (9/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.3%
+  </span>
+  <span class="absValue">
+    (11/15)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Usuarios$HibernateProxy$B8HLoEnL</td>
+  </tr>
+  <tr>
+    <td class="name">Usuarios$HibernateProxy$CbD7sDkS</td>
+  </tr>
+  <tr>
+    <td class="name">Usuarios$HibernateProxy$mK5FtGHQ</td>
+  </tr>
+  <tr>
+    <td class="name">Usuarios$HibernateProxy$YJSSiTDL</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    69.2%
+  </span>
+  <span class="absValue">
+    (9/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.3%
+  </span>
+  <span class="absValue">
+    (11/15)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package org.bedu.ods.entity;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+<i class="no-highlight">4</i>&nbsp;import jakarta.persistence.*;
+<i class="no-highlight">5</i>&nbsp;import jakarta.validation.constraints.Email;
+<i class="no-highlight">6</i>&nbsp;import jakarta.validation.constraints.NotEmpty;
+<i class="no-highlight">7</i>&nbsp;import jakarta.validation.constraints.Size;
+<i class="no-highlight">8</i>&nbsp;import lombok.*;
+<i class="no-highlight">9</i>&nbsp;import org.hibernate.annotations.JdbcTypeCode;
+<i class="no-highlight">10</i>&nbsp;import org.hibernate.annotations.UpdateTimestamp;
+<i class="no-highlight">11</i>&nbsp;import org.hibernate.type.SqlTypes;
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;import java.time.LocalDateTime;
+<i class="no-highlight">14</i>&nbsp;import java.util.HashSet;
+<i class="no-highlight">15</i>&nbsp;import java.util.Set;
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;@Entity
+<i class="no-highlight">18</i>&nbsp;@Getter
+<b class="fc"><i class="no-highlight">19</i>&nbsp;@Setter</b>
+<b class="nc"><i class="no-highlight">20</i>&nbsp;@ToString(onlyExplicitlyIncluded = true)</b>
+<b class="fc"><i class="no-highlight">21</i>&nbsp;@NoArgsConstructor</b>
+<b class="nc"><i class="no-highlight">22</i>&nbsp;@RequiredArgsConstructor</b>
+<i class="no-highlight">23</i>&nbsp;@Table(name = &quot;usuarios&quot;)
+<i class="no-highlight">24</i>&nbsp;public class Usuarios {
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    @Id
+<i class="no-highlight">27</i>&nbsp;    @GeneratedValue(strategy= GenerationType.IDENTITY)
+<i class="no-highlight">28</i>&nbsp;    @Column(name = &quot;id&quot;, nullable = false)
+<i class="no-highlight">29</i>&nbsp;    @JdbcTypeCode(SqlTypes.BIGINT)
+<b class="fc"><i class="no-highlight">30</i>&nbsp;    private long id;</b>
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;    @NonNull()
+<i class="no-highlight">33</i>&nbsp;    @ToString.Include
+<i class="no-highlight">34</i>&nbsp;    @Size(min = 8, message = &quot;El nombre debe tener al menos 8 letras.&quot;)
+<i class="no-highlight">35</i>&nbsp;    @Column(name = &quot;nombre&quot;, nullable = false)
+<b class="fc"><i class="no-highlight">36</i>&nbsp;    private String nombre;</b>
+<i class="no-highlight">37</i>&nbsp;
+<i class="no-highlight">38</i>&nbsp;    @NonNull
+<i class="no-highlight">39</i>&nbsp;    @ToString.Include
+<i class="no-highlight">40</i>&nbsp;    @Email(message = &quot;Se debe de utilizar un formato correcto de correo electrónico.&quot;)
+<i class="no-highlight">41</i>&nbsp;    @NotEmpty(message = &quot;Es requerido un correo electrónico&quot;)
+<i class="no-highlight">42</i>&nbsp;    @Column(name = &quot;correo&quot;, nullable = false)
+<b class="fc"><i class="no-highlight">43</i>&nbsp;    private String correo;</b>
+<i class="no-highlight">44</i>&nbsp;
+<i class="no-highlight">45</i>&nbsp;    @NonNull
+<i class="no-highlight">46</i>&nbsp;    @ToString.Include
+<i class="no-highlight">47</i>&nbsp;    @NotEmpty(message = &quot;El alias es requerido&quot;)
+<i class="no-highlight">48</i>&nbsp;    @Size(min = 5, max = 10, message = &quot;El alias debe tener al menos 5 letras y ser menor a 10&quot;)
+<i class="no-highlight">49</i>&nbsp;    @Column(name = &quot;alias&quot;, nullable = false)
+<b class="fc"><i class="no-highlight">50</i>&nbsp;    private String alias;</b>
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;    @NonNull
+<i class="no-highlight">53</i>&nbsp;    @ToString.Include
+<i class="no-highlight">54</i>&nbsp;    @NotEmpty(message = &quot;La contraseña es requerido&quot;)
+<i class="no-highlight">55</i>&nbsp;    @Size(min = 8, message = &quot;La contraseña debe contener al menos 8 caracteres.&quot;)
+<i class="no-highlight">56</i>&nbsp;    @Column(name = &quot;password&quot;, nullable = false)
+<b class="fc"><i class="no-highlight">57</i>&nbsp;    private String password;</b>
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;    @NonNull
+<i class="no-highlight">60</i>&nbsp;    @ToString.Include
+<i class="no-highlight">61</i>&nbsp;    @Column(name = &quot;rol&quot;, nullable = false)
+<i class="no-highlight">62</i>&nbsp;    @NotEmpty(message = &quot;El rol es requerido { admin | user }&quot;)
+<b class="fc"><i class="no-highlight">63</i>&nbsp;    private String rol;</b>
+<i class="no-highlight">64</i>&nbsp;
+<b class="fc"><i class="no-highlight">65</i>&nbsp;    @Column(name = &quot;created_at&quot;, nullable = false)</b>
+<b class="fc"><i class="no-highlight">66</i>&nbsp;    private LocalDateTime createdAt = LocalDateTime.now();</b>
+<i class="no-highlight">67</i>&nbsp;
+<i class="no-highlight">68</i>&nbsp;    @Column(name = &quot;updated_at&quot;, nullable = false)
+<i class="no-highlight">69</i>&nbsp;    @UpdateTimestamp
+<b class="nc"><i class="no-highlight">70</i>&nbsp;    private LocalDateTime updatedAt;</b>
+<i class="no-highlight">71</i>&nbsp;
+<b class="fc"><i class="no-highlight">72</i>&nbsp;    @ManyToMany(fetch = FetchType.LAZY,</b>
+<i class="no-highlight">73</i>&nbsp;            cascade = {
+<i class="no-highlight">74</i>&nbsp;                    CascadeType.PERSIST,
+<i class="no-highlight">75</i>&nbsp;                    CascadeType.MERGE
+<i class="no-highlight">76</i>&nbsp;            },
+<i class="no-highlight">77</i>&nbsp;            mappedBy = &quot;usuarios&quot;)
+<i class="no-highlight">78</i>&nbsp;    @JsonIgnore
+<b class="nc"><i class="no-highlight">79</i>&nbsp;    private Set&lt;Proyectos&gt; proyectos = new HashSet&lt;&gt;();</b>
+<i class="no-highlight">80</i>&nbsp;
+<i class="no-highlight">81</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-02-26 02:20</div>
+</div>
+</body>
+</html>

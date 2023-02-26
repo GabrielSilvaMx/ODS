@@ -1,17 +1,15 @@
 # Proyecto ODS
-## Entrega del proyecto final del módulo 3 de HSBC TechAcademy 
+## Entrega del proyecto final HSBC TechAcademy 
 
-Video de entrega del Checkpoint Módulo 3:
-<https://youtu.be/ltHeORMr0Lw>
-
-Video de Módulo 2:
-<https://youtu.be/ebKH3DjXDGg>
-
-**API REST  en la nube :**
+**API REST  en la nube :**exp
 ```
 http://localhost:8080/auth/signin	POST	
 
-Ingreso a la API con token JWT.
+Ingreso a la API con token JWT:
+{
+    "username": "correo@dominio.com",
+    "password": "password"
+}
 ```
 
 ```
@@ -114,20 +112,4 @@ Actualiza la información de la tarea
 ```
 /api/tareas /{id}	DELETE
 Elimina una tarea	
-```
-```
-Logs	Recurso
-/api/logs	GET	
-Muestra las excepciones CRUD que se generaron al realizar la consulta con la api REST
-```
-
-Sub/Pub JMS
-```
-/api/sendQueue	GET	
-El publicador (usuario registrado) envía al ActiveMQ una cola y se entrega a un consumidor (administrador)
-```
-
-```
-/api/sendTopic	GET	
-El publicador (proyecto finalizado) envía al ActiveMQ un tema y se entrega a varios consumidores (equipo de trabajo)
 ```

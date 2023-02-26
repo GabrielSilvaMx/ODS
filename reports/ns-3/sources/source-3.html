@@ -1,0 +1,159 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > JwtTokenAuthenticationFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.bedu.ods.config.jwt</a>
+</div>
+
+<h1>Coverage Summary for Class: JwtTokenAuthenticationFilter (org.bedu.ods.config.jwt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JwtTokenAuthenticationFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (9/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package org.bedu.ods.config.jwt;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import jakarta.servlet.FilterChain;
+<i class="no-highlight">4</i>&nbsp;import jakarta.servlet.ServletException;
+<i class="no-highlight">5</i>&nbsp;import jakarta.servlet.ServletRequest;
+<i class="no-highlight">6</i>&nbsp;import jakarta.servlet.ServletResponse;
+<i class="no-highlight">7</i>&nbsp;import jakarta.servlet.http.HttpServletRequest;
+<i class="no-highlight">8</i>&nbsp;import lombok.RequiredArgsConstructor;
+<i class="no-highlight">9</i>&nbsp;import lombok.extern.slf4j.Slf4j;
+<i class="no-highlight">10</i>&nbsp;import org.springframework.http.HttpHeaders;
+<i class="no-highlight">11</i>&nbsp;import org.springframework.security.authentication.AnonymousAuthenticationToken;
+<i class="no-highlight">12</i>&nbsp;import org.springframework.security.core.Authentication;
+<i class="no-highlight">13</i>&nbsp;import org.springframework.security.core.context.SecurityContext;
+<i class="no-highlight">14</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i class="no-highlight">15</i>&nbsp;import org.springframework.util.StringUtils;
+<i class="no-highlight">16</i>&nbsp;import org.springframework.web.filter.GenericFilterBean;
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;import java.io.IOException;
+<i class="no-highlight">19</i>&nbsp;
+<b class="fc"><i class="no-highlight">20</i>&nbsp;@RequiredArgsConstructor</b>
+<b class="fc"><i class="no-highlight">21</i>&nbsp;@Slf4j</b>
+<i class="no-highlight">22</i>&nbsp;public class JwtTokenAuthenticationFilter extends GenericFilterBean {
+<i class="no-highlight">23</i>&nbsp;    public static final String HEADER_PREFIX = &quot;Bearer &quot;;
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;    private final JwtTokenProvider jwtTokenProvider;
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;    @Override
+<i class="no-highlight">28</i>&nbsp;    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
+<i class="no-highlight">29</i>&nbsp;            throws IOException, ServletException {
+<i class="no-highlight">30</i>&nbsp;
+<b class="fc"><i class="no-highlight">31</i>&nbsp;        String token = resolveToken((HttpServletRequest) req);</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;        log.info(&quot;Extracting token from HttpServletRequest: {}&quot;, token);</b>
+<i class="no-highlight">33</i>&nbsp;
+<b class="fc"><i class="no-highlight">34</i>&nbsp;        if (token != null &amp;&amp; jwtTokenProvider.validateToken(token)) {</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;            Authentication auth = jwtTokenProvider.getAuthentication(token);</b>
+<i class="no-highlight">36</i>&nbsp;
+<b class="nc"><i class="no-highlight">37</i>&nbsp;            if (auth != null &amp;&amp; !(auth instanceof AnonymousAuthenticationToken)) {</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;                SecurityContext context = SecurityContextHolder.createEmptyContext();</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;                context.setAuthentication(auth);</b>
+<b class="nc"><i class="no-highlight">40</i>&nbsp;                SecurityContextHolder.setContext(context);</b>
+<i class="no-highlight">41</i>&nbsp;            }
+<i class="no-highlight">42</i>&nbsp;        }
+<i class="no-highlight">43</i>&nbsp;
+<b class="fc"><i class="no-highlight">44</i>&nbsp;        filterChain.doFilter(req, res);</b>
+<i class="no-highlight">45</i>&nbsp;    }
+<i class="no-highlight">46</i>&nbsp;
+<i class="no-highlight">47</i>&nbsp;    private String resolveToken(HttpServletRequest request) {
+<b class="fc"><i class="no-highlight">48</i>&nbsp;        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);</b>
+<b class="fc"><i class="no-highlight">49</i>&nbsp;        if (StringUtils.hasText(bearerToken) &amp;&amp; bearerToken.startsWith(HEADER_PREFIX)) {</b>
+<b class="nc"><i class="no-highlight">50</i>&nbsp;            return bearerToken.substring(7);</b>
+<i class="no-highlight">51</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">52</i>&nbsp;        return null;</b>
+<i class="no-highlight">53</i>&nbsp;    }
+<i class="no-highlight">54</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-02-26 02:20</div>
+</div>
+</body>
+</html>
