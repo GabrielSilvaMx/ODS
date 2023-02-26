@@ -55,8 +55,8 @@ public class ProyectosController {
         List<EntityModel<ProyectosDTO>> listaProyectosModel = proyectosService.findAll(nombre)
                 .stream()
                 .map(proyectosModelAssembler::toModel)
-                .collect(Collectors.toList());
-        if (listaProyectosModel.stream().count()<=0)
+                .toList();
+        if ((long) listaProyectosModel.size() <=0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         CollectionModel<EntityModel<ProyectosDTO>> collectionModel = CollectionModel.of(listaProyectosModel);
@@ -73,7 +73,7 @@ public class ProyectosController {
                 .stream()
                 .map(usuariosModelAssembler::toModel)
                 .collect(Collectors.toList());
-        if (listaUsuariosModel.stream().count()<=0)
+        if ((long) listaUsuariosModel.size() <=0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         CollectionModel<EntityModel<UsuariosDTO>> collectionModel = CollectionModel.of(listaUsuariosModel);

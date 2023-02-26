@@ -67,7 +67,7 @@ public class UsuariosController {
         List<EntityModel<UsuariosDTO>> listaUsuariosModel = usuariosService.findAll(nombre)
                 .stream()
                 .map(modelAssembler::toModel)
-                .collect(Collectors.toList());
+                .toList();
 
         if ((long) listaUsuariosModel.size() <= 0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

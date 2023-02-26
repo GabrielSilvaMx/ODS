@@ -14,8 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -47,7 +45,7 @@ public class TareasController {
         List<EntityModel<TareasDTO>> listaProyectosModel = tareasService.findTareasByProyecto(idProyecto)
                 .stream()
                 .map(modelAssembler::toModel)
-                .collect(Collectors.toList());
+                .toList();
 
         if ((long) listaProyectosModel.size() <=0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -63,7 +61,7 @@ public class TareasController {
         List<EntityModel<TareasDTO>> listaProyectosModel = tareasService.findTareasByUsuario(idUsuario)
                 .stream()
                 .map(modelAssembler::toModel)
-                .collect(Collectors.toList());
+                .toList();
         if ((long) listaProyectosModel.size() <=0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         CollectionModel<EntityModel<TareasDTO>> collectionModel = CollectionModel.of(listaProyectosModel);
@@ -77,7 +75,7 @@ public class TareasController {
         List<EntityModel<TareasDTO>> listaProyectosModel = tareasService.findTareasByProyectoAndUsuario(idProyecto, idUsuario)
                 .stream()
                 .map(modelAssembler::toModel)
-                .collect(Collectors.toList());
+                .toList();
         if ((long) listaProyectosModel.size() <=0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         CollectionModel<EntityModel<TareasDTO>> collectionModel = CollectionModel.of(listaProyectosModel);
