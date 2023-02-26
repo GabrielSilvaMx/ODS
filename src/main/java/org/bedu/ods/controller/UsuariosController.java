@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class UsuariosController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/welcome")
     public @ResponseBody ResponseEntity<String> saludo() {
-        UserDetails usrDetailcontext = usuariosService.UsersDetailsContext();
+        UserDetails usrDetailcontext = usuariosService.usersDetailsContext();
         return new ResponseEntity<>("Bienvenido " + usrDetailcontext.getUsername(), HttpStatus.OK);
     }
 

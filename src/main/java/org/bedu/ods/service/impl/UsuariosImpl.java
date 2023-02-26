@@ -128,7 +128,7 @@ public class UsuariosImpl implements IUsuariosService {
         );
     }
 
-    public UserDetails UsersDetailsContext() {
+    public UserDetails usersDetailsContext() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         UserDetails usrDetail = (UserDetails) auth.getPrincipal();
