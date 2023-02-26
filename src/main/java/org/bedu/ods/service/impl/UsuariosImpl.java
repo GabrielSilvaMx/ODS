@@ -125,9 +125,7 @@ public class UsuariosImpl implements IUsuariosService {
         Authentication auth = context.getAuthentication();
         UserDetails usrDetail = (UserDetails) auth.getPrincipal();
         usrDetail.getAuthorities().forEach( x ->
-                log.info("User Details Context: {} ",
-                        usrDetail.getUsername() +
-                                " - ROLES: {}", x.getAuthority() ) );
+                log.info("User Details Context: {} ROLES: {} ", usrDetail.getUsername(), x.getAuthority() ) );
         return  usrDetail;
     }
 
