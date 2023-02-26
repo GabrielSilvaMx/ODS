@@ -1,7 +1,6 @@
 package org.bedu.ods;
 
 import org.bedu.ods.controller.TestController;
-import org.bedu.ods.entity.UsuarioServiceTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;

@@ -13,10 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -29,12 +31,16 @@ public class UsuariosImpl implements IUsuariosService {
 
     private static final String TXTNOTFOUND = "No se encontró usuario con id ";
 
+    @Transactional
     @Override
     public List<UsuariosDTO> findAll(String nombre) {
         LinkedList<Usuarios> usuarios  = new LinkedList<>();
         LinkedList<UsuariosDTO> usuariosDto;
+
         if (nombre == null) {
-            usuariosRepository.findAll().forEach(usuarios::add);
+            try (Stream<Usuarios> listUsuarios = usuariosRepository.findAll().stream() ) {
+                listUsuarios.forEach(usuarios::add);
+            }
             usuariosDto = new LinkedList<>(usuariosMapper.listaUsuariosToUsuariosDto(usuarios));
         }
         else
@@ -78,7 +84,7 @@ public class UsuariosImpl implements IUsuariosService {
 
         return usuariosMapper.
                 usuariosToUsuariosDto(usuariosRepository
-                    .save(usuariosMapper.usuariosDtoToUsuarios(usuarioDto))
+                        .save(usuariosMapper.usuariosDtoToUsuarios(usuarioDto))
                 );
     }
 
@@ -86,11 +92,11 @@ public class UsuariosImpl implements IUsuariosService {
     public UsuariosDTO update(long id, UsuariosDTO usuarioDto) {
         Usuarios usuario = usuariosRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + id));
-                usuario.setNombre(usuarioDto.getNombre());
-                usuario.setCorreo(usuarioDto.getCorreo());
-                usuario.setRol(usuarioDto.getRol());
-                usuario.setAlias(usuarioDto.getAlias());
-                usuario.setPassword(usuarioDto.getPassword());
+        usuario.setNombre(usuarioDto.getNombre());
+        usuario.setCorreo(usuarioDto.getCorreo());
+        usuario.setRol(usuarioDto.getRol());
+        usuario.setAlias(usuarioDto.getAlias());
+        usuario.setPassword(usuarioDto.getPassword());
         return usuariosMapper.
                 usuariosToUsuariosDto(usuariosRepository
                         .save(usuario)
@@ -101,13 +107,15 @@ public class UsuariosImpl implements IUsuariosService {
     public void delete(long id) {
         Usuarios usuario = usuariosRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(TXTNOTFOUND + id));
-            usuariosRepository.delete(usuario);
+        usuariosRepository.delete(usuario);
     }
 
     @Override
     public UsuariosDTO findLastUser() {
         List<Usuarios> listaUsuarios = new ArrayList<>();
-        usuariosRepository.findAll().forEach(listaUsuarios::add);
+        try (Stream<Usuarios> listUsuarios = usuariosRepository.findAll().stream() ) {
+            listUsuarios.forEach(listaUsuarios::add);
+        }
         return usuariosMapper.usuariosToUsuariosDto(
                 listaUsuarios.get(listaUsuarios.size()-1));
     }

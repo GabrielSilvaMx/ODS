@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -64,16 +63,18 @@ public class UsuariosController {
     @GetMapping
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<UsuariosDTO>>> getAllUsuarios(@RequestParam(required = false) String nombre)
     {
-            List<EntityModel<UsuariosDTO>> listaUsuariosModel = usuariosService.findAll(nombre)
-                    .stream()
-                    .map(modelAssembler::toModel)
-                    .collect(Collectors.toList());
-            if (listaUsuariosModel.stream().count() <= 0)
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-            CollectionModel<EntityModel<UsuariosDTO>> collectionModel = CollectionModel.of(listaUsuariosModel);
+        List<EntityModel<UsuariosDTO>> listaUsuariosModel = usuariosService.findAll(nombre)
+                .stream()
+                .map(modelAssembler::toModel)
+                .collect(Collectors.toList());
 
-            return new ResponseEntity<>(collectionModel, HttpStatus.OK);
+        if ((long) listaUsuariosModel.size() <= 0)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        CollectionModel<EntityModel<UsuariosDTO>> collectionModel = CollectionModel.of(listaUsuariosModel);
+
+        return new ResponseEntity<>(collectionModel, HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")

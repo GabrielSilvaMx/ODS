@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -115,7 +114,7 @@ class ProyectosControllerTest {
         this.pryIdCreated = proyecto.getId();
         MockHttpServletRequestBuilder builderController = MockMvcRequestBuilders
                 .put("/api/proyectos/"+pryIdCreated)
-                .content("{\"nombre\":\"Proyecto Cultural\",\"descripcion\":\"DIFUSIÓN de los ODS que alcance al 10% población.\",\"fechaProyecto\":"+getFecha(2023,Calendar.AUGUST,1).getTime()+",\"fechaCompromiso\":"+getFecha(2023,Calendar.AUGUST,20).getTime()+",\"fechaEntrega\":"+getFecha(2023,Calendar.SEPTEMBER,30).getTime()+",\"claseServicio\":\"servicio1\",\"limiteWip\":10,\"estatus\":\"pendiente\"}");
+                .content("{\"nombre\":\"Proyecto Cultural\",\"descripcion\":\"DIFUSIÓN de los ODS que alcance al 10% población.\",\"fechaProyecto\":"+getFecha(2023,Calendar.AUGUST,1).getTime()+",\"fechaCompromiso\":"+getFecha(2024,Calendar.AUGUST,20).getTime()+",\"fechaEntrega\":"+getFecha(2023,Calendar.SEPTEMBER,30).getTime()+",\"claseServicio\":\"servicio1\",\"limiteWip\":10,\"estatus\":\"pendiente\"}");
 
         this.mockMvc
                 .perform(

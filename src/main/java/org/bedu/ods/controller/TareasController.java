@@ -49,7 +49,7 @@ public class TareasController {
                 .map(modelAssembler::toModel)
                 .collect(Collectors.toList());
 
-        if (listaProyectosModel.stream().count()<=0)
+        if ((long) listaProyectosModel.size() <=0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         CollectionModel<EntityModel<TareasDTO>> collectionModel = CollectionModel.of(listaProyectosModel);
 
@@ -64,7 +64,7 @@ public class TareasController {
                 .stream()
                 .map(modelAssembler::toModel)
                 .collect(Collectors.toList());
-        if (listaProyectosModel.stream().count()<=0)
+        if ((long) listaProyectosModel.size() <=0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         CollectionModel<EntityModel<TareasDTO>> collectionModel = CollectionModel.of(listaProyectosModel);
 
@@ -78,7 +78,7 @@ public class TareasController {
                 .stream()
                 .map(modelAssembler::toModel)
                 .collect(Collectors.toList());
-        if (listaProyectosModel.stream().count()<=0)
+        if ((long) listaProyectosModel.size() <=0)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         CollectionModel<EntityModel<TareasDTO>> collectionModel = CollectionModel.of(listaProyectosModel);
 

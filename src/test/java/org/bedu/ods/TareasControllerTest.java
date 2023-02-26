@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -116,7 +117,7 @@ class TareasControllerTest {
         this.tareaIdCreated = tarea.getId();
         MockHttpServletRequestBuilder builderController = MockMvcRequestBuilders
                 .put("/api/tareas/"+tareaIdCreated)
-                .content("{\"cardID\":\"CARD-CULTURA-010\",\"date\":"+getFecha(2023,Calendar.AUGUST,12).getTime()+",\"priority\":2,\"transicion\":\"ToDo\",\"estado\":\"trabajando\",\"description\":\"Se deben de recolectar mas equipos.\",\"tiempoEstimado\":\"10 días\"}");
+                .content("{\"cardID\":\"CARD-CULTURA-010\",\"date\":"+getFecha(2024,Calendar.SEPTEMBER,12).getTime()+",\"priority\":2,\"transicion\":\"ToDo\",\"estado\":\"trabajando\",\"description\":\"Se deben de recolectar mas equipos.\",\"tiempoEstimado\":\"10 días\"}");
 
         this.mockMvc
                 .perform(
@@ -148,11 +149,15 @@ class TareasControllerTest {
 
     private void getUsuarioYProyectoTest() {
         List<Proyectos> listaProyectos = new ArrayList<>();
-        proyectosRepository.findAll().forEach(listaProyectos::add);
+        try (Stream<Proyectos> proyectos = proyectosRepository.findAll().stream() ) {
+            proyectos.forEach(listaProyectos::add);
+        }
         proyecto = listaProyectos.get(listaProyectos.size()-1);
 
         List<Usuarios> listaUsuarios = new ArrayList<>();
-        usuariosRepository.findAll().forEach(listaUsuarios::add);
+        try (Stream<Usuarios> listUsuarios = usuariosRepository.findAll().stream() ) {
+            listUsuarios.forEach(listaUsuarios::add);
+        }
         usuario = listaUsuarios.get(listaUsuarios.size()-1);
     }
 

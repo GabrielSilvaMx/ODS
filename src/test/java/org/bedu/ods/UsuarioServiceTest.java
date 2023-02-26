@@ -1,12 +1,10 @@
-package org.bedu.ods.entity;
+package org.bedu.ods;
 
 import org.bedu.ods.entity.dto.UsuariosDTO;
-import org.bedu.ods.entity.mapper.UsuariosMapper;
 import org.bedu.ods.service.impl.UsuariosImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -24,10 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(properties = "spring.datasource.url=jdbc:mysql://${LOCAL_DATABASE_NAME}:3306/db_ods_test?serverTimezone=UTC")
 @TestPropertySource(locations = "classpath:db-test.properties")
 @Sql("classpath:test-mysql.sql")
-public class UsuarioServiceTest {
-
-    @Mock
-    public UsuariosMapper usrMapper;
+class UsuarioServiceTest {
 
     @Test
     void testFindAll(@Autowired UsuariosImpl usuariosService) {
