@@ -43,7 +43,7 @@ public class UsuariosController {
         return new ResponseEntity<>("Bienvenido " + usrDetailcontext.getUsername(), HttpStatus.OK);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('ADMIN','ROLE_ADMIN')")
     @GetMapping(path="/{id}")
     public @ResponseBody ResponseEntity<EntityModel<UsuariosDTO>> getByIdUsuario(@PathVariable("id") Long id)
     {
@@ -58,7 +58,7 @@ public class UsuariosController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('ADMIN','ROLE_ADMIN')")
     @GetMapping
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<UsuariosDTO>>> getAllUsuarios(@RequestParam(required = false) String nombre)
     {
@@ -84,7 +84,7 @@ public class UsuariosController {
         return new ResponseEntity<>(model, HttpStatus.CREATED); // https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('ADMIN','ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUsuario(@PathVariable("id") long id) {
         usuariosService.delete(id);
