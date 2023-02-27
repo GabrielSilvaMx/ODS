@@ -1,0 +1,9 @@
+# Content of the environment file
+export AZ_DATABASE_NAME="mysql_database"
+export AZ_MYSQL_NON_ADMIN_USERNAME="username"
+export AZ_MYSQL_NON_ADMIN_PASSWORD="password"
+export LOCAL_DATABASE_NAME="localhost"
+export LOCAL_MYSQL_NON_ADMIN_USERNAME="username"
+export LOCAL_MYSQL_NON_ADMIN_PASSWORD="password"
+export JWT_SECRET_KEY="dskjdf89udfdsfjksd99sd"
+export AZ_URL_WEB="localhost"
