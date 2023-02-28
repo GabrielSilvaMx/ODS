@@ -11,10 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -60,9 +63,10 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiCallError<String>> handleAccessDeniedException(
             HttpServletRequest request, AccessDeniedException ex) {
+
         log.warn("AccessDeniedException " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(new ApiCallError<>("Acceso denegado", List.of(ex.getMessage())));
+                .body(new ApiCallError<>("Acceso denegado: ", List.of(ex.getMessage() )));
     }
 
     @ExceptionHandler(AuthenticationException.class)
