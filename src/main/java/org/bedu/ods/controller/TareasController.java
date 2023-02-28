@@ -10,7 +10,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -25,7 +24,6 @@ public class TareasController {
     private final TareasModelAssembler modelAssembler;
 
     @GetMapping(path="/{id}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
     public @ResponseBody ResponseEntity<EntityModel<TareasDTO>> getTareasById(@PathVariable("id") Long id)
     {
         try {
@@ -40,7 +38,6 @@ public class TareasController {
     }
 
     @GetMapping(path="/proyecto/{idProyecto}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByProyecto(@PathVariable("idProyecto") Long idProyecto)
     {
         List<EntityModel<TareasDTO>> listaProyectosModel = tareasService.findTareasByProyecto(idProyecto)
@@ -56,7 +53,6 @@ public class TareasController {
     }
 
     @GetMapping(path="/usuario/{idUsuario}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByUsuario(@PathVariable("idUsuario") Long idUsuario)
     {
 
@@ -72,7 +68,6 @@ public class TareasController {
     }
 
     @GetMapping(path="/proyecto/{idProyecto}/usuario/{idUsuario}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByProyectoAndUsuario(@PathVariable("idProyecto") Long idProyecto, @PathVariable("idUsuario") Long idUsuario)
     {
         List<EntityModel<TareasDTO>> listaProyectosModel = tareasService.findTareasByProyectoAndUsuario(idProyecto, idUsuario)
@@ -98,7 +93,6 @@ public class TareasController {
     }
 
     @PostMapping("/proyecto/{idProyecto}/usuario/{idUsuario}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
     public @ResponseBody ResponseEntity<EntityModel<TareasDTO>> addTareaByProyectoAndUsuario(
             @PathVariable("idProyecto") long idProyecto,
             @PathVariable("idUsuario") long idUsuario,
@@ -111,7 +105,6 @@ public class TareasController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
     public ResponseEntity<EntityModel<TareasDTO>> updateTarea(
             @PathVariable("id") long id,
             @RequestBody TareasDTO tareasDto)
@@ -123,7 +116,6 @@ public class TareasController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
     public ResponseEntity<HttpStatus> deleteTarea(
             @PathVariable("id") long id)
     {

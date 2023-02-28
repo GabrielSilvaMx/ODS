@@ -7,6 +7,7 @@ import org.bedu.ods.service.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -60,11 +61,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/all").permitAll()
                         .requestMatchers("/auth/signin").permitAll()
                         .requestMatchers("/api/usuarios/registro").permitAll()
+                        .requestMatchers("/api/usuario").hasAnyRole("USER", "ROLE_USER")
+                        .requestMatchers("/api/manager").hasAnyRole("MANAGER", "ROLE_MANAGER")
+                        .requestMatchers("/api/admin").hasAnyRole("ADMIN", "ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasAnyRole("ADMIN" ,"ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/proyectos/**").hasAnyRole("ADMIN" ,"MANAGER", "ROLE_ADMIN", "ROLE_MANAGER")
+                        .requestMatchers(HttpMethod.DELETE, "/tareas/**").hasAnyRole( "MANAGER", "USER", "ROLE_MANAGER", "ROLE_USER")
                         .requestMatchers("/api/**").authenticated()
-                        /*.requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/proyectos/**").hasAnyRole("ADMIN" ,"MANAGER")
-                        .requestMatchers(HttpMethod.DELETE, "/tareas/**").hasAnyRole( "MANAGER", "USER")
-                        .anyRequest().authenticated() */
                 )
                 .addFilterBefore(new JwtTokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .userDetailsService(jpaUserService)
