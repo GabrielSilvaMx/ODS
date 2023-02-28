@@ -12,6 +12,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class ProyectosController {
     private final UsuariosModelAssembler usuariosModelAssembler;
 
     @GetMapping(path="/{id}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ROLE_MANAGER')")
     public @ResponseBody ResponseEntity<EntityModel<ProyectosDTO>> getProyectosById(
             @PathVariable("id") Long id)
     {
@@ -45,6 +47,7 @@ public class ProyectosController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ROLE_MANAGER')")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<ProyectosDTO>>> getAllProyectos(
             @RequestParam(required = false) String nombre)
     {
@@ -61,6 +64,7 @@ public class ProyectosController {
     }
 
     @GetMapping("/{idProyecto}/usuarios")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ROLE_MANAGER', 'USER', 'ROLE_USER')")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<UsuariosDTO>>> getAllUsuariosByProyecto(
             @PathVariable("idProyecto") long idProyecto)
     {
@@ -77,6 +81,7 @@ public class ProyectosController {
     }
 
     @GetMapping("/{idProyecto}/usuarios/{idUsuario}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ROLE_MANAGER', 'USER', 'ROLE_USER')")
     public @ResponseBody ResponseEntity<EntityModel<UsuariosDTO>> getUsuarioByProyecto(
             @PathVariable("idProyecto") long idProyecto,
             @PathVariable("idUsuario") long idUsuario)
@@ -93,6 +98,7 @@ public class ProyectosController {
     }
 
     @PostMapping("/{idProyecto}/usuarios/{idUsuario}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ROLE_MANAGER', 'USER', 'ROLE_USER')")
     public @ResponseBody ResponseEntity<EntityModel<ProyectosDTO>> addUsuarioByProyecto(
             @PathVariable("idProyecto") long idProyecto,
             @PathVariable("idUsuario") long idUsuario)
@@ -104,6 +110,7 @@ public class ProyectosController {
     }
 
     @DeleteMapping("/{idProyecto}/usuarios/{idUsuario}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<EntityModel<ProyectosDTO>> deleteUsuarioByProyecto(
             @PathVariable("idProyecto") long idProyecto,
             @PathVariable("idUsuario") long idUsuario)
@@ -115,6 +122,7 @@ public class ProyectosController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ROLE_MANAGER')")
     public ResponseEntity<EntityModel<ProyectosDTO>> createProyecto(
             @Valid @RequestBody ProyectosDTO proyectoDto)
     {
@@ -125,6 +133,7 @@ public class ProyectosController {
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ROLE_MANAGER')")
     public ResponseEntity<EntityModel<ProyectosDTO>> updateProyecto(
             @PathVariable("id") long id,
             @RequestBody ProyectosDTO proyectoDto)
@@ -136,6 +145,7 @@ public class ProyectosController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<HttpStatus> deleteProyecto(
             @PathVariable("id") long id)
     {

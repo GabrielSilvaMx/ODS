@@ -44,6 +44,7 @@ public class UsuariosController {
     }
 
     @GetMapping(path="/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'ROLE_ADMIN', 'USER', 'ROLE_USER')")
     public @ResponseBody ResponseEntity<EntityModel<UsuariosDTO>> getByIdUsuario(@PathVariable("id") Long id)
     {
         try {
@@ -58,6 +59,7 @@ public class UsuariosController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'ROLE_ADMIN')")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<UsuariosDTO>>> getAllUsuarios(@RequestParam(required = false) String nombre)
     {
 
@@ -74,7 +76,7 @@ public class UsuariosController {
         return new ResponseEntity<>(collectionModel, HttpStatus.OK);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'ROLE_ADMIN', 'USER', 'ROLE_USER')")
     @PutMapping("{id}")
     public ResponseEntity<EntityModel<UsuariosDTO>> updateUsuario(@PathVariable("id") long id, @RequestBody UsuariosDTO usuarioDto) {
         UsuariosDTO updateUsuarioDto = usuariosService.update(id, usuarioDto);
@@ -83,6 +85,7 @@ public class UsuariosController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<HttpStatus> deleteUsuario(@PathVariable("id") long id) {
         usuariosService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT); // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204
