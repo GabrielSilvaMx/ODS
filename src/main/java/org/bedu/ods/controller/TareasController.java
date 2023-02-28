@@ -56,7 +56,6 @@ public class TareasController {
     }
 
     @GetMapping(path="/usuario/{idUsuario}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByUsuario(@PathVariable("idUsuario") Long idUsuario)
     {
 
@@ -72,7 +71,6 @@ public class TareasController {
     }
 
     @GetMapping(path="/proyecto/{idProyecto}/usuario/{idUsuario}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
     public @ResponseBody ResponseEntity<CollectionModel<EntityModel<TareasDTO>>> getTareasByProyectoAndUsuario(@PathVariable("idProyecto") Long idProyecto, @PathVariable("idUsuario") Long idUsuario)
     {
         List<EntityModel<TareasDTO>> listaProyectosModel = tareasService.findTareasByProyectoAndUsuario(idProyecto, idUsuario)
@@ -98,7 +96,6 @@ public class TareasController {
     }
 
     @PostMapping("/proyecto/{idProyecto}/usuario/{idUsuario}")
-    @PreAuthorize("hasAnyRole('MANAGER','ROLE_MANAGER','USER','ROLE_USER')")
     public @ResponseBody ResponseEntity<EntityModel<TareasDTO>> addTareaByProyectoAndUsuario(
             @PathVariable("idProyecto") long idProyecto,
             @PathVariable("idUsuario") long idUsuario,
